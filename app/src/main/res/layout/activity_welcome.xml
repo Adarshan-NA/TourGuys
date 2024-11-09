@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/welcome_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/backgroundImage"
+        android:scaleType="centerCrop"
+        android:src="@drawable/welcome_background_image" />
+
+    <!-- Semi-transparent Overlay with Gradient -->
+    <LinearLayout
+        android:layout_width="450dp"
+        android:layout_height="476dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="122dp"
+        android:layout_marginBottom="132dp"
+        android:background="@drawable/hex_vector"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Welcome Text -->
+
+        <!-- Sign In Button -->
+
+        <TextView
+            android:id="@+id/welcomeText"
+            style="@style/welcomeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/welcome"
+             />
+
+        <Button
+            android:id="@+id/signInButton"
+            style="@style/button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_rectangle"
+            android:text="@string/sign_in"
+             />
+
+        <!-- Sign Up Button -->
+        <Button
+            android:id="@+id/signUpButton"
+            style="@style/button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rectangle"
+            android:text="@string/sign_up"
+            />
+
+    </LinearLayout>
+</RelativeLayout>
+<!--    <ImageView-->
+<!--        android:id="@+id/overlay_hexagon"-->
+<!--        android:layout_width="600dp"-->
+<!--        android:layout_height="600dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:contentDescription="@string/overlay_hexagon"-->
+<!--        android:scaleType="centerInside"-->
+<!--        android:src="@drawable/hex_vector_welcome" /> -->
+
+<!--    <TextView-->
+<!--        android:id="@+id/welcome_text"-->
+<!--        style="@style/welcome_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="55dp"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_marginEnd="131dp"-->
+<!--        android:layout_marginBottom="448dp"-->
+<!--        android:text="@string/welcome"-->
+<!--        android:textColor="#FF000000"-->
+<!--        android:textSize="36sp"-->
+<!--        android:textStyle="bold" />-->
+
+
+
+

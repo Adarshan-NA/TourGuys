@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/login_screen"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+
+<!--        android:gravity="center_horizontal"-->
+        <!-- Top Image Section -->
+
+        <!-- Logo and Slogan -->
+
+        <ImageView
+            android:layout_width="434dp"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/login_background_image" />
+
+        <!-- Login Form -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-170dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="200sp"
+                android:layout_height="135sp"
+                android:src="@drawable/logo" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Login"
+            android:textColor="#6AB187"
+            android:textSize="36sp" />
+
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="323sp"
+            android:layout_height="49sp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_rectangle"
+            android:drawablePadding="10dp"
+            android:hint="Username"
+            android:padding="10dp"
+            android:textColor="#6AB187"
+            android:textColorHint="#B1B1B1" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="323sp"
+            android:layout_height="49dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_rectangle"
+            android:drawableEnd="@drawable/password_eye"
+            android:drawablePadding="10dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="#6AB187"
+            android:textColorHint="#B1B1B1" />
+
+        <!-- Forgot Password -->
+        <TextView
+            android:layout_width="117sp"
+            android:layout_height="23sp"
+            android:layout_marginTop="15dp"
+            android:text="Forgot Password?"
+            android:textColor="#56C3E6"
+            android:textSize="14sp" />
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="293sp"
+            android:layout_height="48sp"
+            android:layout_marginTop="15sp"
+            style="@style/ButtonStyle.tourGuys"
+            android:text="Login"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+
+
+
+                <!-- OR Divider -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="1dp"
+                        android:background="#B1B1B1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OR"
+                        android:textColor="#8C8FA5"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="1dp"
+                        android:background="#B1B1B1"/>
+                </LinearLayout>
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/FaceID_loginButton"
+            android:layout_width="293sp"
+            android:layout_height="48sp"
+            android:layout_marginTop="15sp"
+            style="@style/ButtonStyle.tourGuys"
+            android:text="Login with Face Id"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+
+        <!--        &lt;!&ndash; Google Sign-in Button &ndash;&gt;-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/googleSignInButton"-->
+        <!--            android:layout_width="48dp"-->
+        <!--            android:layout_height="48dp"-->
+        <!--            android:src="@drawable/ic_google"-->
+        <!--            android:layout_marginTop="16dp"-->
+        <!--            android:contentDescription="Google Sign-in"/>-->
+
+
+        <!-- Sign-up Option -->
+        <LinearLayout
+            android:layout_width="127sp"
+            android:layout_height="23sp"
+            android:orientation="horizontal"
+            android:layout_marginTop="40sp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New User?"
+                android:textSize="14sp"
+                android:textColor="#B1B1B1" />
+            <TextView
+                android:id="@+id/signupOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="7sp"
+                android:text="Sign up"
+                android:textSize="14sp"
+                android:textColor="#56C3E6" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

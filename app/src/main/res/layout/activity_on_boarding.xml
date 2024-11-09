@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/activity_onboarding.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/on_boarding_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- Background image -->
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/backgroundImage"
+        android:scaleType="centerCrop"
+        android:src="@drawable/onboarding_background_image" /> <!-- Replace with your actual image file name -->
+
+    <!-- Semi-transparent overlay with hexagon shape -->
+    <ImageView
+        android:id="@+id/overlay_hexagon"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/overlay_hexagon"
+        android:scaleType="centerInside"
+        android:src="@drawable/hex_vector" /> <!-- Replace with your actual overlay image -->
+
+    <TextView
+        android:id="@+id/onboarding_text"
+        style="@style/yourTourGuide"
+        android:layout_width="200sp"
+        android:layout_height="180sp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/your_tour_guide"
+         />
+<!--    <ImageView-->
+<!--        android:id="@+id/your_tour_guide_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:contentDescription="@string/your_tour_guide_text"-->
+<!--        android:src="@drawable/your_tour_guide_text" />-->
+
+</RelativeLayout>

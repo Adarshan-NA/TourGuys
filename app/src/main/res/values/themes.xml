@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.tourGuys" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="buttonStyle">@style/ButtonStyle.tourGuys</item>
+<!--        &lt;!&ndash; Customize your light theme here. &ndash;&gt;-->
+<!--        &lt;!&ndash; <item name="colorPrimary">@color/my_light_primary</item> &ndash;&gt;-->
+    </style>
+
+    <style name="Theme.tourGuys" parent="Base.Theme.tourGuys">
+
+    </style>
+
+</resources>
