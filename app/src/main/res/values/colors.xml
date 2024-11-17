@@ -10,4 +10,8 @@
     <color name="grey_dark">#626060</color>
 <color name="blue">#1D1D42</color>
     <color name="green_dark">#B0D8BC</color>
+
+<color name="primaryColor">#6200EE</color>
+<color name="primaryDarkColor">#3700B3</color>
+<color name="accentColor">#03DAC5</color>
 </resources>
