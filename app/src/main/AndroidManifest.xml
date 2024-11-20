@@ -44,6 +44,12 @@
         <activity
             android:name=".signUp"
             android:exported="true" />
+        <activity
+            android:name=".Profile"
+            android:exported="true" />
+        <activity
+            android:name=".ProfileSettingsFragment"
+            android:exported="true" />
     </application>
 
 </manifest>
