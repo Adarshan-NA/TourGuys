@@ -8,4 +8,11 @@
     <string name="your_tour_guide">Your Tour Guide</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_re_type_password">Re-Type Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">login</string>
+    <string name="not_a_robot">Not a robot</string>
 </resources>

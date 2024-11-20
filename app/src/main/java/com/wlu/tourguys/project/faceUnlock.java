@@ -76,7 +76,7 @@ public class faceUnlock extends AppCompatActivity {
         // Initialize back button
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(faceUnlock.this, Login.class);
+            Intent intent = new Intent(faceUnlock.this, signUp.class);
             startActivity(intent);
             finish(); // Optional: close this activity
         });
@@ -89,7 +89,7 @@ public class faceUnlock extends AppCompatActivity {
                 finish(); // Optional: close this activity
             } else {
                 // Show a toast message if the face didn't match
-                Toast.makeText(faceUnlock.this, "Face didn't match", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(faceUnlock.this, "Face didn't match", Toast.LENGTH_SHORT).show();
             }
         });
     }
