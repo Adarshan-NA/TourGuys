@@ -1,5 +1,6 @@
 package com.wlu.tourguys.project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.wlu.tourguys.project.guide.GuideActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.home) {
                 // Handle home action
+                startActivity(new Intent(this, MainActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.add_trip) {
                 // Handle add trip action
                 return true;
             } else if (item.getItemId() == R.id.guide) {
+                startActivity(new Intent(this, GuideActivity.class));
                 // Handle guide action
                 return true;
             } else if (item.getItemId() == R.id.profile) {

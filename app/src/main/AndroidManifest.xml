@@ -8,6 +8,8 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -51,11 +53,16 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".DetailsActivity" />
-        <activity
-            android:name=".Profile"
-            android:exported="true" />
-        <activity
-            android:name=".ProfileSettingsFragment" />
+    <!-- Details Activity -->
+    <activity android:name=".DetailsActivity" />
+
+    <!-- Profile Activity -->
+    <activity
+        android:name=".Profile"
+        android:exported="true" />
+
+    <!-- Profile Settings Fragment -->
+    <activity
+        android:name=".ProfileSettingsFragment" />
     </application>
 </manifest>
