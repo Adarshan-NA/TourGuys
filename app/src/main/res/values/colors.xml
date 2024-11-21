@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<color name="black">#000000</color>
+<color name="light_gray">#918d8d</color>
+<color name="white">#fafafa</color>
+<color name="button_background">#1D1D42</color>
+<color name="light_background">#FFF8FDFF</color>
+<color name="green">#FFB0D8BC</color>
+<color name="dark_text">#FF1D1D42</color>
+    <color name="grey_dark">#626060</color>
+<color name="blue">#1D1D42</color>
+    <color name="green_dark">#B0D8BC</color>
 </resources>
