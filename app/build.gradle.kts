@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.wlu.tourguys.project"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -38,10 +38,18 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.camera.view)
     // CameraX dependencies with explicit versions
-    implementation("androidx.camera:camera-core:1.2.0")
-    implementation("androidx.camera:camera-camera2:1.2.0")
-    implementation("androidx.camera:camera-lifecycle:1.2.0")
-    implementation("androidx.camera:camera-view:1.2.0") // Ensure this dependency is included
+    implementation(libs.androidx.camera.core)
+    implementation(libs.camerax.camera2)
+    implementation(libs.camerax.lifecycle)
+    implementation(libs.camera.view) // Ensure this dependency is included
+
+    implementation ("com.google.android.libraries.places:places:2.6.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("com.google.android.gms:play-services-maps:18.0.2")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
