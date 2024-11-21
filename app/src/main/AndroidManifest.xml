@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Camera Permission -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Camera Feature Requirement -->
+    <uses-permission android:name="android.permission.CAMERA" /> 
+    <!-- Camera Feature Requirement -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -25,7 +26,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,20 +45,17 @@
             android:name=".signUp"
             android:exported="true" />
         <activity
+            android:name=".verifyHuman"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
         <activity
             android:name=".DetailsActivity" />
-
         <activity
             android:name=".Profile"
             android:exported="true" />
-
         <activity
-            android:name=".ProfileSettingsFragment"
-            android:exported="true" />
+            android:name=".ProfileSettingsFragment" />
     </application>
-
 </manifest>

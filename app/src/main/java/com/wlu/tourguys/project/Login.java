@@ -1,8 +1,11 @@
 package com.wlu.tourguys.project;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +19,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class Login extends AppCompatActivity {
-    EditText passwordEditText;
+    EditText loginPasswordEditText, loginEmailEditText;
     TextView signupOption;
     boolean isPasswordVisible = false;
     Button loginButton;
+    public SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +37,15 @@ public class Login extends AppCompatActivity {
         });
 
 
-        passwordEditText = findViewById(R.id.passwordEditText);
+        loginPasswordEditText = findViewById(R.id.loginPasswordEditText);
 
         // Set a touch listener to the drawable (end icon)
-        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
+        loginPasswordEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Check if the touch is within the drawable bounds
-                    if (event.getRawX() >= (passwordEditText.getRight() - passwordEditText.getCompoundDrawables()[2].getBounds().width())) {
+                    if (event.getRawX() >= (loginPasswordEditText.getRight() - loginPasswordEditText.getCompoundDrawables()[2].getBounds().width())) {
                         // Toggle the visibility mode
                         togglePasswordVisibility();
                         return true;
@@ -66,10 +70,14 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                saveEmailToPreferences();
+
                 Intent intent = new Intent(Login.this, MainActivity.class);
                 startActivity(intent);
                 // Apply the slide-in and slide-out animations
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
             }
         });
 
@@ -86,22 +94,58 @@ public class Login extends AppCompatActivity {
 
                 finish();
             }
-
         });
+
+        loginEmailEditText = findViewById(R.id.loginEmailEditText);
+
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        String storedEmail = sharedPreferences.getString("DefaultEmail", "email@domain.com");
+        loginEmailEditText.setText(storedEmail);
+
+
+    }
+
+    public void saveEmailToPreferences() {
+
+        String email = loginEmailEditText.getText().toString().trim();
+        String password = loginPasswordEditText.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            loginEmailEditText.setError("Email field cannot be empty. Please enter your email.");
+            return;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            loginEmailEditText.setError("Please enter a valid email address");
+            return;
+        }
+        if (password.isEmpty()) {
+            loginPasswordEditText.setError("Password field cannot be empty. Please enter your password.");
+            return;
+        }
+
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("DefaultEmail", email);
+//        editor.apply();
+
+        Intent intent = new Intent(Login.this, signUp.class);
+        startActivity(intent);
+        // Apply the slide-in and slide-out animations
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void togglePasswordVisibility() {
         if (isPasswordVisible) {
             // Hide password
-            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            passwordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye, 0);
+            loginPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            loginPasswordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye, 0);
         } else {
             // Show password
-            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            passwordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye_hide, 0);
+            loginPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            loginPasswordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye_hide, 0);
         }
         // Move the cursor to the end of the text
-        passwordEditText.setSelection(passwordEditText.length());
+        loginPasswordEditText.setSelection(loginPasswordEditText.length());
         isPasswordVisible = !isPasswordVisible;
     }
 
