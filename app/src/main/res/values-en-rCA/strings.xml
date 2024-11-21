@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TourGuys</string>
+    <string name="logo">Logo</string>
+    <string name="backgroundImage">backgroundImage</string>
+    <string name="your_tour_guide_text">your_tour_guide_text</string>
+    <string name="overlay_hexagon">overlay_hexagon</string>
+    <string name="welcome">Welcome</string>
+    <string name="your_tour_guide">Your Tour Guide</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="back">Back</string>
+</resources>

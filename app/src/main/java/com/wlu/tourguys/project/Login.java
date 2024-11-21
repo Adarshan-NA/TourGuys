@@ -70,7 +70,14 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 saveEmailToPreferences();
+
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                startActivity(intent);
+                // Apply the slide-in and slide-out animations
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
             }
         });
 
