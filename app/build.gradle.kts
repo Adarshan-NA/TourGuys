@@ -38,10 +38,10 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.camera.view)
     // CameraX dependencies with explicit versions
-    implementation("androidx.camera:camera-core:1.2.0")
-    implementation("androidx.camera:camera-camera2:1.2.0")
-    implementation("androidx.camera:camera-lifecycle:1.2.0")
-    implementation("androidx.camera:camera-view:1.2.0") // Ensure this dependency is included
+    implementation(libs.androidx.camera.core)
+    implementation(libs.camerax.camera2)
+    implementation(libs.camerax.lifecycle)
+    implementation(libs.camera.view) // Ensure this dependency is included
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

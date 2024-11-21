@@ -90,7 +90,7 @@ public class signUp extends AppCompatActivity {
         notARobotCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     if (isChecked) {
                         // Checkbox is checked, enable the button
-                        Intent intent = new Intent(signUp.this, faceUnlock.class);
+                        Intent intent = new Intent(signUp.this, verifyHuman.class);
                         startActivity(intent);
 
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

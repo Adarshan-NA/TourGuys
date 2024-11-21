@@ -41,6 +41,9 @@
         <activity
             android:name=".signUp"
             android:exported="true" />
+        <activity
+            android:name=".verifyHuman"
+            android:exported="true" />
     </application>
 
 </manifest>
