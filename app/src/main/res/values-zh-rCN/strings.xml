@@ -1,3 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">旅行客</string>
+    <string name="logo">标识</string>
+    <string name="backgroundImage">背景图</string>
+    <string name="your_tour_guide_text">您的旅行导游</string>
+    <string name="overlay_hexagon">六角形覆盖</string>
+    <string name="welcome">欢迎！</string>
+    <string name="your_tour_guide">您的导游</string>
+    <string name="sign_in">登入</string>
+    <string name="sign_up">登出</string>
+    <string name="back_button_description">返回</string>
+    <string name="destination_name">珠穆朗玛峰</string>
+    <string name="location">尼泊尔</string>
+    <string name="duration">三天</string>
+    <string name="name_label">名称：</string>
+    <string name="traveler_name">安妮 普瑞斯</string>
+    <string name="travel_dates_label">旅行时间：</string>
+    <string name="travel_dates">12月15日-12月20日</string>
+    <string name="source_label">资源：</string>
+    <string name="source">洛杉矶</string>
+    <string name="number_of_people_label">旅行人数：</string>
+    <string name="total_people">四人</string>
+    <string name="male_count_label">男性友人数：</string>
+    <string name="female_count_label">女性友人数：</string>
+    <string name="male_count">2</string>
+    <string name="female_count">2</string>
+    <string name="budget_label">预算：</string>
+    <string name="budget">1000加币</string>
+    <string name="contact_info">联系方式：</string>
+    <string name="back_button_text">返回</string>
+    <string name="unlock_button_text">解锁</string>
+    <string name="title_travel_advice">旅行建议</string>
+    <string name="label_address">地址</string>
+    <string name="hint_enter_location">输入地点：</string>
+    <string name="label_date">日期：</string>
+    <string name="hint_select_date">选择日期</string>
+    <string name="button_get_info">得到建议</string>
+    <string name="title_weather_info">天气信息</string>
+    <string name="hint_travel_advice">旅行建议将展示于此</string>
+
 </resources>
