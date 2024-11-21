@@ -27,14 +27,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_back_arrow"
                 android:background="@null"
-                android:contentDescription="Back" />
+                android:contentDescription="@string/back_button_description" />
 
             <!-- Destination Name -->
             <TextView
                 android:id="@+id/tv_destination_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mount Everest"
+                android:text="@string/destination_name"
                 android:textSize="18sp"
                 android:textColor="@color/dark_text"
                 android:layout_marginTop="8dp" />
@@ -54,7 +54,7 @@
                     android:id="@+id/tv_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nepal"
+                    android:text="@string/location"
                     android:textSize="12sp"
                     android:textColor="@color/dark_text"
                     android:layout_marginEnd="16dp" />
@@ -73,7 +73,7 @@
                     android:id="@+id/tv_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3 days"
+                    android:text="@string/duration"
                     android:textSize="12sp"
                     android:textColor="@color/dark_text" />
             </LinearLayout>
@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name:"
+                android:text="@string/name_label"
                 android:textSize="18sp"
                 android:textColor="@color/green"
                 android:layout_marginTop="16dp" />
@@ -91,7 +91,7 @@
                 android:id="@+id/tv_traveler_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ann Press"
+                android:text="@string/traveler_name"
                 android:textSize="15sp"
                 android:textColor="@color/dark_text"
                 android:layout_marginTop="4dp" />
@@ -99,7 +99,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Travel Dates:"
+                android:text="@string/travel_dates_label"
                 android:textSize="18sp"
                 android:textColor="@color/green"
                 android:paddingTop="8dp" />
@@ -108,7 +108,7 @@
                 android:id="@+id/tv_travel_dates"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="December 15 - December 20"
+                android:text="@string/travel_dates"
                 android:textSize="15sp"
                 android:textColor="@color/dark_text"
                 android:paddingBottom="8dp" />
@@ -116,7 +116,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Source:"
+                android:text="@string/source_label"
                 android:textSize="18sp"
                 android:textColor="@color/green"
                 android:paddingTop="8dp" />
@@ -125,7 +125,7 @@
                 android:id="@+id/tv_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delhi, India"
+                android:text="@string/source"
                 android:textSize="15sp"
                 android:textColor="@color/dark_text"
                 android:paddingBottom="8dp" />
@@ -133,7 +133,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Number of People:"
+                android:text="@string/number_of_people_label"
                 android:textSize="18sp"
                 android:textColor="@color/green"
                 android:paddingTop="8dp" />
@@ -142,7 +142,7 @@
                 android:id="@+id/tv_total_people"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="7"
+                android:text="@string/total_people"
                 android:textSize="15sp"
                 android:textColor="@color/dark_text"
                 android:paddingBottom="8dp" />
@@ -156,7 +156,7 @@
                     android:id="@+id/tv_male_count_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male Count:"
+                    android:text="@string/male_count_label"
                     android:textSize="18sp"
                     android:textColor="@color/green"
                     android:layout_marginEnd="16dp" />
@@ -165,7 +165,7 @@
                     android:id="@+id/tv_female_count_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Female Count:"
+                    android:text="@string/female_count_label"
                     android:textSize="18sp"
                     android:textColor="@color/green" />
             </LinearLayout>
@@ -179,7 +179,7 @@
                     android:id="@+id/tv_male_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3"
+                    android:text="@string/male_count"
                     android:textSize="15sp"
                     android:textColor="@color/dark_text"
                     android:layout_marginEnd="30dp" />
@@ -188,7 +188,7 @@
                     android:id="@+id/tv_female_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4"
+                    android:text="@string/female_count"
                     android:textSize="15sp"
                     android:paddingLeft="72dp"
                     android:textColor="@color/dark_text" />
@@ -198,7 +198,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Budget:"
+                android:text="@string/budget_label"
                 android:textSize="18sp"
                 android:textColor="@color/green"
                 android:layout_marginTop="16dp" />
@@ -207,7 +207,7 @@
                 android:id="@+id/tv_budget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="360"
+                android:text="@string/budget"
                 android:textSize="15sp"
                 android:textColor="@color/dark_text"
                 android:layout_marginTop="4dp" />
@@ -218,7 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_rectangle"
-                android:text="Contact Info"
+                android:text="@string/contact_info"
                 android:textSize="18dp"
                 android:drawableEnd="@drawable/drawable_image"
                 android:textColor="@android:color/white"
