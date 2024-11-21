@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Camera Permission -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Camera Feature Requirement -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Camera Feature Requirement -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -17,30 +20,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.tourGuys"
         tools:targetApi="34">
+
+        <!-- New Test Activity as Launcher for Testing -->
         <activity
-            android:name=".Splash"
+            android:name=".TestActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".onBoarding"
-            android:exported="true" />
-        <activity
-            android:name=".Welcome"
-            android:exported="true" />
-        <activity
-            android:name=".Login"
-            android:exported="true"/>
-        <activity
-            android:name=".faceUnlock"
-            android:exported="true" />
-        <activity
-            android:name=".signUp"
-            android:exported="true" />
-    </application>
 
+        <!-- Other Activities -->
+        <activity android:name=".AddTripActivity" android:exported="false" />
+        <activity android:name=".ContactDetailsActivity" android:exported="false" />
+
+        <!-- Commented out Launcher intent filters for Splash -->
+        <activity android:name=".Splash" android:exported="true">
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+
+        <activity android:name=".onBoarding" android:exported="true" />
+        <activity android:name=".Welcome" android:exported="true" />
+        <activity android:name=".Login" android:exported="true" />
+        <activity android:name=".faceUnlock" android:exported="true" />
+        <activity android:name=".signUp" android:exported="true" />
+    </application>
 </manifest>
