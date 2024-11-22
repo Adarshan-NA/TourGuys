@@ -1,4 +1,4 @@
-package com.wlu.tourguys.project.guide;
+package com.wlu.tourguys.project;
 
 import androidx.annotation.NonNull;
 

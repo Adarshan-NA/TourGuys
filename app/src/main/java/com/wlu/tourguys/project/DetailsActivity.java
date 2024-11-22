@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.wlu.tourguys.project.guide.GuideActivity;
+//import com.wlu.tourguys.project.guide.GuideActivity;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -73,18 +73,18 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Set up Bottom Navigation View
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.home) {
+            if (item.getItemId() == R.id.nav_home) {
                 // Handle home action
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.add_trip) {
+            } else if (item.getItemId() == R.id.nav_add_trip) {
                 // Handle add trip action
                 return true;
-            } else if (item.getItemId() == R.id.guide) {
+            } else if (item.getItemId() == R.id.nav_guide) {
                 startActivity(new Intent(this, GuideActivity.class));
                 // Handle guide action
                 return true;
-            } else if (item.getItemId() == R.id.profile) {
+            } else if (item.getItemId() == R.id.nav_profile) {
                 // Handle profile action
                 return true;
             }

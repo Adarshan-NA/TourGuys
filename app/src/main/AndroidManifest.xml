@@ -21,9 +21,6 @@
         android:theme="@style/Theme.tourGuys"
         tools:targetApi="34">
         <activity
-            android:name=".VerifyHuman"
-            android:exported="false" />
-        <activity
             android:name=".Splash"
             android:exported="true">
             <intent-filter>
@@ -52,7 +49,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-        <activity
     <!-- Details Activity -->
     <activity android:name=".DetailsActivity" />
 
