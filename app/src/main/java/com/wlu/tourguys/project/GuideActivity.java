@@ -1,4 +1,4 @@
-package com.wlu.tourguys.project.guide;
+package com.wlu.tourguys.project;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -22,8 +22,6 @@ import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.wlu.tourguys.project.MainActivity;
-import com.wlu.tourguys.project.R;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -143,21 +141,21 @@ public class GuideActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
-        bottomNavigation.setSelectedItemId(R.id.guide);
+        bottomNavigation.setSelectedItemId(R.id.nav_guide);
 
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.home) {
+            if (item.getItemId() == R.id.nav_home) {
                 // Handle home action
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.add_trip) {
+            } else if (item.getItemId() == R.id.nav_add_trip) {
                 // Handle add trip action
                 return true;
-            } else if (item.getItemId() == R.id.guide) {
+            } else if (item.getItemId() == R.id.nav_guide) {
                 startActivity(new Intent(this, GuideActivity.class));
                 // Handle guide action
                 return true;
-            } else if (item.getItemId() == R.id.profile) {
+            } else if (item.getItemId() == R.id.nav_profile) {
                 // Handle profile action
                 return true;
             }

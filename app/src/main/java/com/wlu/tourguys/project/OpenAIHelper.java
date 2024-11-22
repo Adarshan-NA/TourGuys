@@ -1,6 +1,10 @@
-package com.wlu.tourguys.project.guide;
+package com.wlu.tourguys.project;
 
-import okhttp3.*;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 public class OpenAIHelper {
 

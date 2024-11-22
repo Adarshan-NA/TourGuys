@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.wlu.tourguys.project.guide.GuideActivity;
+//import com.wlu.tourguys.project.guide.GuideActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,18 +45,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up Bottom Navigation View
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.home) {
+            if (item.getItemId() == R.id.nav_home) {
                 // Handle home action
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.add_trip) {
-                // Handle add trip action
+            } else if (item.getItemId() == R.id.nav_add_trip) {
+                startActivity(new Intent(this, AddTripActivity.class));
+                // Handle guide action
                 return true;
-            } else if (item.getItemId() == R.id.guide) {
+
+            } else if (item.getItemId() == R.id.nav_guide) {
                 startActivity(new Intent(this, GuideActivity.class));
                 // Handle guide action
                 return true;
-            } else if (item.getItemId() == R.id.profile) {
+            } else if (item.getItemId() == R.id.nav_profile) {
+                startActivity(new Intent(this, Profile.class));
                 // Handle profile action
                 return true;
             }

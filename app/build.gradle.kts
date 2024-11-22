@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.application)
+    id("com.android.application")
 }
 
 android {
@@ -25,6 +25,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -32,30 +33,37 @@ android {
 }
 
 dependencies {
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.activity)
-    implementation(libs.constraintlayout)
-    implementation(libs.camera.view)
-    // CameraX dependencies with explicit versions
+    // AndroidX dependencies
+    implementation(libs.androidx.appcompat.v161)
+    implementation(libs.androidx.core.ktx.v1120)
+    implementation(libs.androidx.constraintlayout.v214)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.cardview.v100)
+
+    // CameraX dependencies
     implementation(libs.androidx.camera.core)
-    implementation(libs.camerax.camera2)
-    implementation(libs.camerax.lifecycle)
-    implementation(libs.camera.view) // Ensure this dependency is included
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
 
-    implementation ("com.google.android.libraries.places:places:2.6.0")
-    implementation ("androidx.cardview:cardview:1.0.0")
-    implementation ("com.google.android.gms:play-services-maps:18.0.2")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.picasso:picasso:2.8")
-    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    // Material Components
+    implementation(libs.material.v1100)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    // Google Maps and Places API
+    implementation(libs.play.services.maps)
+    implementation(libs.places)
+
+    // Networking and image loading
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.picasso)
+    implementation(libs.logging.interceptor)
 
     // ML Kit Face Detection API
-    implementation(libs.mlkit.facedetection)
-    androidTestImplementation(libs.rules)
+    implementation(libs.face.detection.v1606)
+
+    // Testing
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit.v115)
+    androidTestImplementation(libs.androidx.espresso.core.v351)
 }
