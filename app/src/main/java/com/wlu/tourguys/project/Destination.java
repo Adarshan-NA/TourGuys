@@ -1,11 +1,15 @@
 package com.wlu.tourguys.project;
 
 public class Destination {
-    private final String name;
-    private final String dates;
-    private final String count;
-    private final String location;
-    private final String country;
+    private String name;
+    private String dates;
+    private String count;
+    private String location;
+    private String country;
+
+    public Destination() {
+        // Required empty constructor for Firebase
+    }
 
     public Destination(String name, String dates, String count, String location, String country) {
         this.name = name;
@@ -15,6 +19,7 @@ public class Destination {
         this.country = country;
     }
 
+    // Getters for Firebase
     public String getName() {
         return name;
     }
