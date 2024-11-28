@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,6 +30,7 @@ import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
 
 public class verifyHuman extends AppCompatActivity {
+    Button backButtton;
 
     private PreviewView previewView;
     private FaceDetectorOptions highAccuracyOpts;
@@ -58,6 +61,19 @@ public class verifyHuman extends AppCompatActivity {
                 .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
                 .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
                 .build();
+
+
+        backButtton = findViewById(R.id.backButton);
+        backButtton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to FaceUnlockActivity
+                Intent intent = new Intent(verifyHuman.this, signUp.class);
+                startActivity(intent);
+                // Apply the slide-in and slide-out animations
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+        });
     }
 
     @Override

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "859577888019",
+    "project_id": "tourguys-413e6",
+    "storage_bucket": "tourguys-413e6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859577888019:android:e4242b960e7847de67fee6",
+        "android_client_info": {
+          "package_name": "com.wlu.tourguys.project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgZk-T40-hIB5IEvSP09eaj5y3rE_IhJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

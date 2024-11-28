@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Camera Permission -->
-    <uses-permission android:name="android.permission.CAMERA" /> 
+    <uses-permission android:name="android.permission.CAMERA" />
     <!-- Camera Feature Requirement -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.tourGuys"
         tools:targetApi="34">
+
         <activity
             android:name=".Splash"
             android:exported="true">
@@ -28,37 +29,56 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".onBoarding"
             android:exported="true" />
+
         <activity
             android:name=".Welcome"
             android:exported="true" />
+
         <activity
             android:name=".Login"
             android:exported="true" />
+
         <activity
             android:name=".faceUnlock"
             android:exported="true" />
+
         <activity
             android:name=".signUp"
             android:exported="true" />
+
         <activity
             android:name=".verifyHuman"
             android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-    <!-- Details Activity -->
-    <activity android:name=".DetailsActivity" />
 
-    <!-- Profile Activity -->
-    <activity
-        android:name=".Profile"
-        android:exported="true" />
+        <!-- Details Activity -->
+        <activity android:name=".DetailsActivity" />
 
-    <!-- Profile Settings Fragment -->
-    <activity
-        android:name=".ProfileSettingsFragment" />
+        <!-- Profile Activity -->
+        <activity
+            android:name=".Profile"
+            android:exported="true" />
+
+        <!-- Profile Settings Fragment -->
+        <activity
+            android:name=".ProfileSettingsFragment" />
+
+        <!-- AddTripActivity -->
+        <activity
+            android:name=".AddTripActivity"
+            android:exported="true" />
+
+        <!-- ContactDetailsActivity -->
+        <activity
+            android:name=".ContactDetailsActivity"
+            android:exported="true" />
+
     </application>
 </manifest>

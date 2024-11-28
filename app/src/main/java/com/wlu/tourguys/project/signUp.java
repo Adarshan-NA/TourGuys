@@ -1,9 +1,12 @@
 package com.wlu.tourguys.project;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,13 +22,22 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 public class signUp extends AppCompatActivity {
-    EditText signupPasswordEditText, signupPasswordConfirmEditText, signupEmailEditText;
-    boolean isPasswordVisible = false;
+    EditText signupPasswordEditText, signupPasswordConfirmEditText, signupEmailEditText, signupNameEditText;
     CheckBox notARobotCheckbox;
     Button signUpButton;
     TextView loginOption;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
+    boolean isPasswordVisible = false;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,149 +51,112 @@ public class signUp extends AppCompatActivity {
 
         signupPasswordEditText = findViewById(R.id.signupPasswordEditText);
         signupEmailEditText = findViewById(R.id.signupEmailEditText);
-        // Set a touch listener to the drawable (end icon)
-
-        signupPasswordEditText.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Check if the touch is within the drawable bounds
-                    if (event.getRawX() >= (signupPasswordEditText.getRight() - signupPasswordEditText.getCompoundDrawables()[2].getBounds().width())) {
-                        // Toggle the visibility mode
-                        togglePasswordVisibility();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
+        signupNameEditText = findViewById(R.id.signupNameEditText);
         signupPasswordConfirmEditText = findViewById(R.id.signupPasswordConfirmEditText);
-        // Set a touch listener to the drawable (end icon)
-        signupPasswordConfirmEditText.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Check if the touch is within the drawable bounds
-                    if (event.getRawX() >= (signupPasswordConfirmEditText.getRight() - signupPasswordConfirmEditText.getCompoundDrawables()[2].getBounds().width())) {
-                        // Toggle the visibility mode
-                        toggleConfirmPasswordVisibility();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-
-        loginOption = findViewById(R.id.loginOption);
-        loginOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(signUp.this, Login.class);
-                startActivity(intent);
-                // Apply the slide-in and slide-out animations
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-            }
-        });
-
         notARobotCheckbox = findViewById(R.id.not_a_robot_checkbox);
-        notARobotCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if (isChecked) {
-                        // Checkbox is checked, enable the button
-                        Intent intent = new Intent(signUp.this, verifyHuman.class);
-                        startActivity(intent);
-
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    }
-                });
-
         signUpButton = findViewById(R.id.signupButton);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        loginOption = findViewById(R.id.loginOption);
 
-                if (!notARobotCheckbox.isChecked()) {
-                    // Show a message if the checkbox is not checked
-                    Toast.makeText(signUp.this, "Please confirm you're not a robot!", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (signupPasswordEditText.equals(signupPasswordConfirmEditText)) {
-                        Toast.makeText(signUp.this, "Sign-Up Successful!", Toast.LENGTH_SHORT).show();
-                        // Add your sign-up logic here (e.g., saving user data)
-                    } else {
-                        Toast.makeText(signUp.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                }
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
+        signupPasswordEditText.setOnTouchListener((v, event) -> handlePasswordToggle(event, signupPasswordEditText));
+        signupPasswordConfirmEditText.setOnTouchListener((v, event) -> handlePasswordToggle(event, signupPasswordConfirmEditText));
+
+        loginOption.setOnClickListener(v -> {
+            Intent intent = new Intent(signUp.this, Login.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
-        saveEmailToPreferences();
 
+        signUpButton.setOnClickListener(v -> {
+            String email = signupEmailEditText.getText().toString().trim();
+            String password = signupPasswordEditText.getText().toString().trim();
+            String retypePassword = signupPasswordConfirmEditText.getText().toString().trim();
+            String name = signupNameEditText.getText().toString().trim();
 
+            if (validateInputs(email, password, retypePassword, name)) {
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                String userId = firebaseAuth.getCurrentUser().getUid();
+                                addUserToDatabase(userId, name, email);
+                                Toast.makeText(signUp.this, "Sign-Up Successful!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(signUp.this, Login.class));
+                                finish();
+                            } else {
+                                Toast.makeText(signUp.this, "Sign-Up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
-
-    public void saveEmailToPreferences() {
-
-        String email = signupEmailEditText.getText().toString().trim();
-        String password = signupPasswordEditText.getText().toString().trim();
-        String retypePassword = signupPasswordConfirmEditText.getText().toString().trim();
-
+    private boolean validateInputs(String email, String password, String retypePassword, String name) {
+        if (name.isEmpty()) {
+            signupNameEditText.setError("Name cannot be empty.");
+            return false;
+        }
         if (email.isEmpty()) {
-            signupEmailEditText.setError("Email field cannot be empty. Please enter your email.");
-            return;
+            signupEmailEditText.setError("Email cannot be empty.");
+            return false;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            signupEmailEditText.setError("Please enter a valid email address");
-            return;
+            signupEmailEditText.setError("Please enter a valid email.");
+            return false;
         }
         if (password.isEmpty()) {
-            signupPasswordEditText.setError("Password field cannot be empty. Please enter your password.");
-            return;
+            signupPasswordEditText.setError("Password cannot be empty.");
+            return false;
         }
-        if (retypePassword.isEmpty()) {
-            signupPasswordConfirmEditText.setError("Password field cannot be empty. Please enter your password.");
-            return;
+        if (password.length() < 6) {
+            signupPasswordEditText.setError("Password must be at least 6 characters long.");
+            return false;
         }
-
-        Intent intent = new Intent(signUp.this, Login.class);
-        startActivity(intent);
-        // Apply the slide-in and slide-out animations
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
+        if (!password.equals(retypePassword)) {
+            signupPasswordConfirmEditText.setError("Passwords do not match.");
+            return false;
+        }
+        return true;
     }
 
-
-
-    private void togglePasswordVisibility() {
-        if (isPasswordVisible) {
-            // Hide password
-            signupPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            signupPasswordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye, 0);
-        } else {
-            // Show password
-            signupPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            signupPasswordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye_hide, 0);
+    private boolean handlePasswordToggle(MotionEvent event, EditText editText) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[2].getBounds().width())) {
+                togglePasswordVisibility(editText);
+                return true;
+            }
         }
-        // Move the cursor to the end of the text
-        signupPasswordEditText.setSelection(signupPasswordEditText.length());
+        return false;
+    }
+
+    private void togglePasswordVisibility(EditText editText) {
+        if (isPasswordVisible) {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye, 0);
+        } else {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye_hide, 0);
+        }
+        editText.setSelection(editText.length());
         isPasswordVisible = !isPasswordVisible;
     }
 
-    private void toggleConfirmPasswordVisibility() {
-        if (isPasswordVisible) {
-            // Hide password
-            signupPasswordConfirmEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            signupPasswordConfirmEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye, 0);
-        } else {
-            // Show password
-            signupPasswordConfirmEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            signupPasswordConfirmEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye_hide, 0);
-        }
-        // Move the cursor to the end of the text
-        signupPasswordConfirmEditText.setSelection(signupPasswordConfirmEditText.length());
-        isPasswordVisible = !isPasswordVisible;
+    private void addUserToDatabase(String userId, String name, String email) {
+        HashMap<String, String> user = new HashMap<>();
+        user.put("name", name);
+        user.put("email", email);
+
+        databaseReference.child(userId).setValue(user)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(signUp.this, "User added to database!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d(TAG, "Database Error: " + task.getException().getMessage());
+                        Toast.makeText(signUp.this, "Database Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
-
-
 }
+
+

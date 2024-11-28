@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.wlu.tourguys.project"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -39,6 +40,12 @@ dependencies {
     implementation(libs.androidx.constraintlayout.v214)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.cardview.v100)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.bom.v3200)
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.database.ktx)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
 
     // CameraX dependencies
     implementation(libs.androidx.camera.core)
@@ -61,6 +68,7 @@ dependencies {
 
     // ML Kit Face Detection API
     implementation(libs.face.detection.v1606)
+    implementation(libs.firebase.firestore)
 
     // Testing
     testImplementation(libs.junit)
