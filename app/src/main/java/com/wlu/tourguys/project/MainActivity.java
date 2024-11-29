@@ -2,7 +2,6 @@ package com.wlu.tourguys.project;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,15 +40,11 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Trips");
 
-        // Save sample data to Firebase
-        saveSampleDataToFirebase();
-
         // Set up RecyclerView
         recyclerViewTrips.setLayoutManager(new LinearLayoutManager(this));
 
-        // Set up the adapter with sample data
-        DestinationAdapter adapter = new DestinationAdapter(getSampleDestinations());
-        recyclerViewTrips.setAdapter(adapter);
+        // Assuming the adapter is handled elsewhere
+        // You can set it up with actual data here
 
         // Set up Bottom Navigation View
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
@@ -74,28 +66,5 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-    }
-
-    // Method to save sample destinations to Firebase
-    private void saveSampleDataToFirebase() {
-        List<Destination> destinations = getSampleDestinations();
-        for (Destination destination : destinations) {
-            // Push each destination as a child in the Firebase database
-            String key = databaseReference.push().getKey();
-            if (key != null) {
-                databaseReference.child(key).setValue(destination)
-                        .addOnSuccessListener(aVoid -> Log.d("Firebase", "Data saved successfully"))
-                        .addOnFailureListener(e -> Log.e("Firebase", "Failed to save data", e));
-            }
-        }
-    }
-
-    // Sample data method for the destinations
-    private List<Destination> getSampleDestinations() {
-        List<Destination> destinations = new ArrayList<>();
-        destinations.add(new Destination("Ann Press", "December 15 - December 20", "7", "Mount Everest", "Nepal"));
-        destinations.add(new Destination("Ann Press", "December 15 - December 20", "7", "Borobudur", "Magelang, Indonesia"));
-        // Add more sample destinations if needed
-        return destinations;
     }
 }

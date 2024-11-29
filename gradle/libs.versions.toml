@@ -20,6 +20,13 @@ picasso = "2.8"
 places = "4.1.0"
 playServicesMaps = "19.0.0"
 retrofit = "2.9.0"
+firebaseAuth = "23.1.0"
+firebaseFirestore = "24.7.1"
+firebaseAuthVersion = "23.1.0"
+
+#Madhuri
+#firebaseBom = "33.6.0"
+#firebaseFirestore = "24.7.1" # Replace with a compatible version if necessary
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -49,3 +56,13 @@ picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+#commented from orginal version
+#firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestore" }
+
+#Madhuri:
+#firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+#firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestore" }
+firebase-database = { module = "com.google.firebase:firebase-database-ktx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuthVersion" }
