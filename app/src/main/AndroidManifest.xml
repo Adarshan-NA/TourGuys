@@ -58,6 +58,10 @@
             android:name=".MainActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".GuideActivity"
+            android:exported="true" />
+
         <!-- Details Activity -->
         <activity android:name=".DetailsActivity" />
 
