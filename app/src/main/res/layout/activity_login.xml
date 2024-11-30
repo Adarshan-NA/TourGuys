@@ -74,21 +74,21 @@
             android:textColor="#6AB187"
             android:textColorHint="#B1B1B1" />
 
-        <!-- Forgot Password -->
-        <TextView
-            android:layout_width="117sp"
-            android:layout_height="23sp"
-            android:layout_marginTop="15dp"
-            android:text="Forgot Password?"
-            android:textColor="#56C3E6"
-            android:textSize="14sp" />
+<!--        &lt;!&ndash; Forgot Password &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="117sp"-->
+<!--            android:layout_height="23sp"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:text="Forgot Password?"-->
+<!--            android:textColor="#56C3E6"-->
+<!--            android:textSize="14sp" />-->
 
         <!-- Login Button -->
         <Button
             android:id="@+id/loginButton"
             android:layout_width="293sp"
             android:layout_height="48sp"
-            android:layout_marginTop="15sp"
+            android:layout_marginTop="40sp"
             style="@style/ButtonStyle.tourGuys"
             android:text="Login"
             android:textColor="@android:color/white"
@@ -97,55 +97,55 @@
 
 
 
-                <!-- OR Divider -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="16dp">
+<!--                &lt;!&ndash; OR Divider &ndash;&gt;-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_marginTop="16dp">-->
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="1dp"
-                        android:background="#B1B1B1"/>
+<!--                    <View-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:background="#B1B1B1"/>-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="OR"
-                        android:textColor="#8C8FA5"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="OR"-->
+<!--                        android:textColor="#8C8FA5"-->
+<!--                        android:layout_marginStart="8dp"-->
+<!--                        android:layout_marginEnd="8dp" />-->
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="1dp"
-                        android:background="#B1B1B1"/>
-                </LinearLayout>
+<!--                    <View-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:background="#B1B1B1"/>-->
+<!--                </LinearLayout>-->
 
-        <!-- Login Button -->
-        <Button
-            android:id="@+id/FaceID_loginButton"
-            android:layout_width="293sp"
-            android:layout_height="48sp"
-            android:layout_marginTop="15sp"
-            style="@style/ButtonStyle.tourGuys"
-            android:text="Login with Face Id"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+<!--        &lt;!&ndash; Login Button &ndash;&gt;-->
+<!--        <Button-->
+<!--            android:id="@+id/FaceID_loginButton"-->
+<!--            android:layout_width="293sp"-->
+<!--            android:layout_height="48sp"-->
+<!--            android:layout_marginTop="15sp"-->
+<!--            style="@style/ButtonStyle.tourGuys"-->
+<!--            android:text="Login with Face Id"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:textSize="18sp" />-->
 
 
-        <!--        &lt;!&ndash; Google Sign-in Button &ndash;&gt;-->
-        <!--        <ImageView-->
-        <!--            android:id="@+id/googleSignInButton"-->
-        <!--            android:layout_width="48dp"-->
-        <!--            android:layout_height="48dp"-->
-        <!--            android:src="@drawable/ic_google"-->
-        <!--            android:layout_marginTop="16dp"-->
-        <!--            android:contentDescription="Google Sign-in"/>-->
+<!--        &lt;!&ndash;        &lt;!&ndash; Google Sign-in Button &ndash;&gt;&ndash;&gt;-->
+<!--        &lt;!&ndash;        <ImageView&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:id="@+id/googleSignInButton"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_width="48dp"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_height="48dp"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:src="@drawable/ic_google"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:layout_marginTop="16dp"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:contentDescription="Google Sign-in"/>&ndash;&gt;-->
 
 
         <!-- Sign-up Option -->

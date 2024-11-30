@@ -57,6 +57,7 @@
             android:fontFamily="sans-serif"
             android:drawablePadding="10dp"
             android:hint="@string/hint_name"
+            android:inputType="textPersonName"
             android:padding="10dp"
             android:textColor="#6AB187"
             android:textColorHint="#B1B1B1" />
@@ -70,6 +71,20 @@
             android:fontFamily="sans-serif"
             android:drawablePadding="10dp"
             android:hint="@string/hint_email"
+            android:padding="10dp"
+            android:textColor="#6AB187"
+            android:textColorHint="#B1B1B1" />
+
+        <EditText
+            android:id="@+id/signupPhoneEditText"
+            android:layout_width="323sp"
+            android:layout_height="49sp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_rectangle"
+            android:fontFamily="sans-serif"
+            android:drawablePadding="10dp"
+            android:hint="@string/phone"
+            android:inputType="phone"
             android:padding="10dp"
             android:textColor="#6AB187"
             android:textColorHint="#B1B1B1" />

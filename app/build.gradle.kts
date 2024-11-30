@@ -40,12 +40,16 @@ dependencies {
     implementation(libs.androidx.constraintlayout.v214)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.cardview.v100)
+
+    // Firebase dependencies
     implementation(platform(libs.firebase.bom))
     implementation(platform(libs.firebase.bom.v3200))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore)
+    implementation(libs.google.firebase.auth)
 
 
     // CameraX dependencies
@@ -72,8 +76,24 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.auth)
 
-    // Testing
+    // Testing dependencies for unit tests
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.byte.buddy)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.core.v150)
+
+
+    // AndroidX testing dependencies for instrumentation tests
     androidTestImplementation(libs.androidx.junit.v115)
     androidTestImplementation(libs.androidx.espresso.core.v351)
+    androidTestImplementation(libs.androidx.core)
+    androidTestImplementation(libs.androidx.junit.v121)
+    androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.mockito.android)
+    androidTestImplementation(libs.androidx.core.testing.v210)
+}
 }

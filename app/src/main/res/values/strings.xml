@@ -45,4 +45,5 @@
     <string name="login">login</string>
     <string name="not_a_robot">Not a robot</string>
     <string name="back">Back</string>
+    <string name="phone">Phone</string>
 </resources>
