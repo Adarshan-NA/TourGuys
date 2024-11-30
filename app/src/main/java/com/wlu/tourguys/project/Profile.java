@@ -7,45 +7,66 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-//import com.wlu.tourguys.project.guide.GuideActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
 
-    private LinearLayout profileSettingsButton;
-    private LinearLayout logoutButton;
-    private ProgressBar loadingProgress;
+    protected LinearLayout profileSettingsButton;
+    protected LinearLayout logoutButton;
+    protected ProgressBar loadingProgress;
+    protected TextView userNameTextView;
+    protected TextView locationTextView;
+
+    protected FirebaseAuth firebaseAuth;
+    protected FirebaseUser currentUser;
+    protected DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // Initialize Firebase
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
         // Initialize views
         profileSettingsButton = findViewById(R.id.profile_settings_button);
         logoutButton = findViewById(R.id.logout_button);
         loadingProgress = findViewById(R.id.loading_progress);
+        userNameTextView = findViewById(R.id.user_name);
+        locationTextView = findViewById(R.id.location);
+
+        // Load user data
+        loadUserData();
 
         // Set click listener for Profile Settings button
         profileSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Show the ProgressBar
                 loadingProgress.setVisibility(View.VISIBLE);
 
-                // Perform the navigation to the fragment
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_profile_settings, new ProfileSettingsFragment())
-                        .addToBackStack(null)
-                        .commit();
-
-                // Add a delay to hide the ProgressBar after navigation
+                // Navigate to ProfileSettingsActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         loadingProgress.setVisibility(View.GONE);
+                        Intent intent = new Intent(Profile.this, ProfileSettingsActivity.class);
+                        startActivity(intent);
                     }
                 }, 1000); // 1000ms delay (1 second)
             }
@@ -65,47 +86,58 @@ public class Profile extends AppCompatActivity {
 
         // Handle BottomNavigationView actions
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.nav_home:
-//                        startActivity(new Intent(Profile.this, MainActivity.class));
-//                        return true;
-//                    case R.id.nav_add_trip:
-//                        startActivity(new Intent(Profile.this, AddTripActivity.class));
-//                        return true;
-//                    case R.id.nav_guide:
-//                        startActivity(new Intent(Profile.this, DetailsActivity.class));
-//                        return true;
-//                    case R.id.nav_profile:
-//                        // Already on the Profile screen
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
-            // Set up Bottom Navigation View
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-                if (item.getItemId() == R.id.nav_home) {
-                    // Handle home action
-                    startActivity(new Intent(this, MainActivity.class));
-                    return true;
-                } else if (item.getItemId() == R.id.nav_add_trip) {
-                    // Handle add trip action
-                    return true;
-                } else if (item.getItemId() == R.id.nav_guide) {
-                    startActivity(new Intent(this, GuideActivity.class));
-                    // Handle guide action
-                    return true;
-                } else if (item.getItemId() == R.id.nav_profile) {
-                    // Handle profile action
-                    return true;
-                }
-                return false;
-            });
+            if (item.getItemId() == R.id.nav_home) {
+                // Handle home action
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_add_trip) {
+                // Handle add trip action
+                startActivity(new Intent(this, AddTripActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_guide) {
+                // Handle guide action
+                startActivity(new Intent(this, GuideActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_profile) {
+                // Already on the Profile screen
+                return true;
+            }
+            return false;
+        });
 
         // Set the current selection to Profile
         bottomNavigationView.setSelectedItemId(R.id.nav_profile);
+    }
+
+    protected void loadUserData() {
+        if (currentUser == null) {
+            Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
+
+        databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String name = snapshot.child("name").getValue(String.class);
+                    String city = snapshot.child("city").getValue(String.class);
+                    String country = snapshot.child("country").getValue(String.class);
+
+                    // Update UI
+                    userNameTextView.setText(name != null ? name : "Unknown");
+                    locationTextView.setText((city != null ? city : "Unknown City") + ", " + (country != null ? country : "Unknown Country"));
+                } else {
+                    Toast.makeText(Profile.this, "User data not found.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Profile.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
