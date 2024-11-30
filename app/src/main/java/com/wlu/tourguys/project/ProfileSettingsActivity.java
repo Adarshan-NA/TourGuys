@@ -34,19 +34,19 @@ import java.util.List;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
 
-    protected static final String TAG = "ProfileSettingsActivity";
-    protected static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private static final String TAG = "ProfileSettingsActivity";
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 
-    protected EditText nameField, emailField, passwordField, mobileField, cityField, countryField;
-    protected Button saveButton;
-    protected ImageView backButton, cameraIcon, profileImageView;
+    private EditText nameField, emailField, passwordField, mobileField, cityField, countryField;
+    private Button saveButton;
+    private ImageView backButton, cameraIcon, profileImageView;
 
-    protected FirebaseAuth firebaseAuth;
-    protected FirebaseUser currentUser;
-    protected DatabaseReference databaseReference;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference databaseReference;
 
     // ActivityResultLauncher for the camera
-    protected ActivityResultLauncher<Intent> cameraLauncher;
+    private ActivityResultLauncher<Intent> cameraLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         cameraIcon.setOnClickListener(v -> openCamera());
     }
 
-    protected void setupCameraLauncher() {
+    private void setupCameraLauncher() {
         cameraLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -104,7 +104,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 });
     }
 
-    protected void openCamera() {
+    private void openCamera() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
         } else {
@@ -112,18 +112,25 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
     }
 
-    protected void launchCameraIntent() {
+    private void launchCameraIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> cameraApps = getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> cameraApps = packageManager.queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (cameraApps.isEmpty()) {
+        if (cameraApps == null || cameraApps.isEmpty()) {
+            Log.d(TAG, "No camera app found.");
             Toast.makeText(this, "No camera app found.", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        for (ResolveInfo app : cameraApps) {
+            Log.d(TAG, "Camera app found: " + app.activityInfo.packageName);
         }
 
         Log.d(TAG, "Launching camera intent...");
         cameraLauncher.launch(takePictureIntent);
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -138,7 +145,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
     }
 
-    protected void loadUserData() {
+    private void loadUserData() {
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
             return;
@@ -173,7 +180,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         });
     }
 
-    protected void saveUserData() {
+    private void saveUserData() {
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
             return;
@@ -213,7 +220,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
     }
 
-    protected void navigateBackToProfile() {
+    private void navigateBackToProfile() {
         Intent intent = new Intent(ProfileSettingsActivity.this, Profile.class);
         startActivity(intent);
         finish();
