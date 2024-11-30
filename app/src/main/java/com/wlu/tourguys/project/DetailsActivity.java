@@ -1,13 +1,20 @@
 package com.wlu.tourguys.project;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+
+
 
 public class DetailsActivity extends AppCompatActivity {
 
     private TextView tvDestinationName, tvLocation, tvDuration, tvTravelerName, tvTravelDates, tvSource, tvTotalPeople, tvMaleCount, tvFemaleCount, tvBudget;
+    private BottomNavigationView bottomNavigation;
+    private Button btnContactInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,9 @@ public class DetailsActivity extends AppCompatActivity {
         tvFemaleCount = findViewById(R.id.tv_female_count);
         tvBudget = findViewById(R.id.tv_budget);
 
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        btnContactInfo = findViewById(R.id.btn_contact_info);
+
         // Get data from intent
         Destination destination = (Destination) getIntent().getSerializableExtra("destination");
 
@@ -42,5 +52,32 @@ public class DetailsActivity extends AppCompatActivity {
          tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
         tvBudget.setText(String.valueOf(destination.getBudget()));
         }
+
+        // Set up button to navigate to ContactDetails
+        btnContactInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(DetailsActivity.this, ContactDetailsActivity.class);
+            startActivity(intent);
+        });
+        // Set up Bottom Navigation View
+        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                // Handle home action
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_add_trip) {
+                // Navigate to AddTripActivity when Add Trip icon is clicked
+                startActivity(new Intent(this, AddTripActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_guide) {
+                startActivity(new Intent(this, GuideActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_profile) {
+                startActivity(new Intent(this, Profile.class));
+                return true;
+            }
+            return false;
+        });
     }
+
+
 }

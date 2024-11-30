@@ -148,7 +148,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (query.isEmpty()) {
             // If the search query is empty, reload all trips from the Firebase list
-            filteredList.addAll(destinationList);
+           // filteredList.addAll(destinationList);
+            // Fetch trips from Firebase
+            fetchTripsFromFirebase();
         } else {
             // Filter trips based on query (country or city)
             for (Destination destination : destinationList) {
