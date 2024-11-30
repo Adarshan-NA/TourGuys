@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Camera Permission -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- Camera Feature Requirement -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- Camera Feature Requirement -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,65 +20,60 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.tourGuys"
         tools:targetApi="34">
-
+        <activity
+            android:name=".ProfileSettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".onBoarding"
             android:exported="true" />
-
         <activity
             android:name=".Welcome"
             android:exported="true" />
-
         <activity
             android:name=".Login"
             android:exported="true" />
-
         <activity
             android:name=".faceUnlock"
             android:exported="true" />
-
         <activity
             android:name=".signUp"
             android:exported="true" />
-
         <activity
             android:name=".verifyHuman"
             android:exported="true" />
-
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
-
-        <!-- Details Activity -->
-        <activity android:name=".DetailsActivity" />
-
-        <!-- Profile Activity -->
+            android:exported="true" /> <!-- Details Activity -->
+        <activity android:name=".DetailsActivity" /> <!-- Profile Activity -->
         <activity
             android:name=".Profile"
-            android:exported="true" />
-
-        <!-- Profile Settings Fragment -->
-        <activity
-            android:name=".ProfileSettingsFragment" />
-
+            android:exported="true" /> <!-- Profile Settings Fragment -->
         <!-- AddTripActivity -->
         <activity
             android:name=".AddTripActivity"
-            android:exported="true" />
-
-        <!-- ContactDetailsActivity -->
+            android:exported="true" /> <!-- ContactDetailsActivity -->
         <activity
             android:name=".ContactDetailsActivity"
             android:exported="true" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
+
 </manifest>
