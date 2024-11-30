@@ -3,74 +3,61 @@ package com.wlu.tourguys.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-//import com.wlu.tourguys.project.guide.GuideActivity;
+
+
+
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private TextView destinationName, destinationLocation, daysCount, travelerName, travelDates, source, totalPeople, maleCount, femaleCount, budget;
-    private Button contactInfoButton;
-    private ImageButton backButton;
+    private TextView tvDestinationName, tvLocation, tvDuration, tvTravelerName, tvTravelDates, tvSource, tvTotalPeople, tvMaleCount, tvFemaleCount, tvBudget;
     private BottomNavigationView bottomNavigation;
+    private Button btnContactInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        // Initialize views
-        destinationName = findViewById(R.id.tv_destination_name);
-        destinationLocation = findViewById(R.id.tv_location);
-        daysCount = findViewById(R.id.tv_duration);
-        travelerName = findViewById(R.id.tv_traveler_name);
-        travelDates = findViewById(R.id.tv_travel_dates);
-        source = findViewById(R.id.tv_source);
-        totalPeople = findViewById(R.id.tv_total_people);
-        maleCount = findViewById(R.id.tv_male_count);
-        femaleCount = findViewById(R.id.tv_female_count);
-        budget = findViewById(R.id.tv_budget);
-        contactInfoButton = findViewById(R.id.btn_contact_info);
-        backButton = findViewById(R.id.back_button);
+        // Initialize Views
+        tvDestinationName = findViewById(R.id.tv_destination_name);
+        tvLocation = findViewById(R.id.tv_location);
+        tvDuration = findViewById(R.id.tv_duration);
+        tvTravelerName = findViewById(R.id.tv_traveler_name);
+        tvTravelDates = findViewById(R.id.tv_travel_dates);
+        tvSource = findViewById(R.id.tv_source);
+        tvTotalPeople = findViewById(R.id.tv_total_people);
+        tvMaleCount = findViewById(R.id.tv_male_count);
+        tvFemaleCount = findViewById(R.id.tv_female_count);
+        tvBudget = findViewById(R.id.tv_budget);
+
         bottomNavigation = findViewById(R.id.bottom_navigation);
+        btnContactInfo = findViewById(R.id.btn_contact_info);
 
         // Get data from intent
-        Intent intent = getIntent();
-        if (intent != null) {
-            String name = intent.getStringExtra("TRAVELER_NAME");
-            String locationName = intent.getStringExtra("DESTINATION_NAME");
-            String locationCountry = intent.getStringExtra("DESTINATION_LOCATION");
-            String duration = intent.getStringExtra("DAYS_COUNT") + " days";
-            String dates = intent.getStringExtra("TRAVEL_DATES");
-            String sourceText = intent.getStringExtra("SOURCE");
-            String totalPeopleText = intent.getStringExtra("TOTAL_PEOPLE");
-            String maleCountText = intent.getStringExtra("MALE_COUNT");
-            String femaleCountText = intent.getStringExtra("FEMALE_COUNT");
-            String budgetText = intent.getStringExtra("BUDGET");
+        Destination destination = (Destination) getIntent().getSerializableExtra("destination");
 
-            destinationName.setText(locationName); // Mount Everest
-            destinationLocation.setText(locationCountry); // Nepal
-            daysCount.setText(duration); // "5 days"
-            travelerName.setText(name); // Ann Press under "Name" label
-            travelDates.setText(dates); // December 15 - December 20
-            source.setText(sourceText); // Source location
-            totalPeople.setText(totalPeopleText); // 7
-            maleCount.setText(maleCountText); // 3
-            femaleCount.setText(femaleCountText); // 3
-            budget.setText(budgetText); // $360
+        // Populate the views
+        if (destination != null) {
+            tvDestinationName.setText(destination.getDestinationCountry());
+            tvLocation.setText(destination.getDestinationCity());
+            tvDuration.setText(String.valueOf((destination.getNumDays())) + " days");
+            tvTravelerName.setText(destination.getName());
+            tvTravelDates.setText((destination.getStartDate() + " to " + destination.getEndDate()));
+            tvSource.setText(destination.getSourceCity() + ", " + destination.getSourceCountry());
+            tvTotalPeople.setText(String.valueOf(destination.getNumPeople()));
+           tvMaleCount.setText(String.valueOf(destination.getMaleCount()));
+         tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
+        tvBudget.setText(String.valueOf(destination.getBudget()));
         }
 
-        // Handle back button click
-        backButton.setOnClickListener(v -> finish());
-
-        // Handle contact info button click
-        contactInfoButton.setOnClickListener(view -> {
-            // Placeholder: Open a dialog or activity for contact details
+        // Set up button to navigate to ContactDetails
+        btnContactInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(DetailsActivity.this, ContactDetailsActivity.class);
+            startActivity(intent);
         });
-
         // Set up Bottom Navigation View
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
@@ -78,17 +65,19 @@ public class DetailsActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_add_trip) {
-                // Handle add trip action
+                // Navigate to AddTripActivity when Add Trip icon is clicked
+                startActivity(new Intent(this, AddTripActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_guide) {
                 startActivity(new Intent(this, GuideActivity.class));
-                // Handle guide action
                 return true;
             } else if (item.getItemId() == R.id.nav_profile) {
-                // Handle profile action
+                startActivity(new Intent(this, Profile.class));
                 return true;
             }
             return false;
         });
     }
+
+
 }

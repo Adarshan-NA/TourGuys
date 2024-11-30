@@ -28,6 +28,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
     EditText loginPasswordEditText, loginEmailEditText;
@@ -104,6 +109,24 @@ public class Login extends AppCompatActivity {
         return true;
     }
 
+//    private void signIn(String email, String password) {
+//        firebaseAuth.signInWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            Log.d(TAG, "signInWithEmail:success");
+//                            FirebaseUser user = firebaseAuth.getCurrentUser();
+//                            saveEmailToPreferences(email); // Save email in preferences
+//                            navigateToMain(user); // Proceed to MainActivity
+//                        } else {
+//                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+//                            Toast.makeText(Login.this, "Authentication failed: Incorrect Email Id or Password", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
+
     private void signIn(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -112,8 +135,7 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            saveEmailToPreferences(email); // Save email in preferences
-                            navigateToMain(user); // Proceed to MainActivity
+                            fetchAndNavigateToMain(email); // Fetch name and navigate to MainActivity
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(Login.this, "Authentication failed: Incorrect Email Id or Password", Toast.LENGTH_SHORT).show();
@@ -122,19 +144,51 @@ public class Login extends AppCompatActivity {
                 });
     }
 
+    private void fetchAndNavigateToMain(String email) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        usersRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                        String name = userSnapshot.child("name").getValue(String.class);
+                        navigateToMain(name); // Pass the name to MainActivity
+                        break;
+                    }
+                } else {
+                    Toast.makeText(Login.this, "User not found in database.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Database error: ", error.toException());
+                Toast.makeText(Login.this, "Failed to fetch user details.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void saveEmailToPreferences(String email) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("DefaultEmail", email);
         editor.apply();
     }
 
-    private void navigateToMain(FirebaseUser user) {
-        if (user != null) {
-            Intent intent = new Intent(Login.this, MainActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            finish(); // Ensure the user cannot navigate back to the login screen
-        }
+//    private void navigateToMain(FirebaseUser user) {
+//        if (user != null) {
+//            Intent intent = new Intent(Login.this, MainActivity.class);
+//            startActivity(intent);
+//            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//            finish(); // Ensure the user cannot navigate back to the login screen
+//        }
+//    }
+
+    private void navigateToMain(String name) {
+        Intent intent = new Intent(Login.this, MainActivity.class);
+        intent.putExtra("USER_NAME", name); // Pass name as an extra
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish(); // Ensure the user cannot navigate back to the login screen
     }
 
     private void togglePasswordVisibility() {
