@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -111,32 +110,17 @@ public class MainActivity extends AppCompatActivity {
     // Fetch trips from Firebase
     private void fetchTripsFromFirebase() {
         databaseReference.addValueEventListener(new ValueEventListener() {
-
             @Override
- public void onDataChange(DataSnapshot dataSnapshot) {
-               destinationList.clear();
-               for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                destinationList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Destination destination = snapshot.getValue(Destination.class);
-                   if (destination != null) {
-                       destinationList.add(destination);
-                  }
-              }
+                    if (destination != null) {
+                        destinationList.add(destination);
+                    }
+                }
                 adapter.notifyDataSetChanged();
-          }
-
-
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    try {
-//                        String key = snapshot.getKey();
-//                        Object value = snapshot.getValue();
-//                        Log.d("FieldMapping", "Key: " + key + ", Value: " + value + ", Type: " + (value != null ? value.getClass().getName() : "null"));
-//                    } catch (Exception e) {
-//                        Log.e("FieldError", "Key: " + snapshot.getKey() + " caused an error: " + e.getMessage());
-//                    }
-//                }
-//            }
-
+            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -147,15 +131,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Filter trips based on search query (country or city)
+//    private void filterTrips(String query) {
+//        List<Destination> filteredList = new ArrayList<>();
+//        for (Destination destination : destinationList) {
+//            if (destination.getDestinationCountry().toLowerCase().contains(query.toLowerCase()) ||
+//                    destination.getDestinationCity().toLowerCase().contains(query.toLowerCase())) {
+//                filteredList.add(destination);
+//            }
+//        }
+//        // Update the adapter with the filtered list
+//        adapter.updateData(filteredList);
+//    }
+
     private void filterTrips(String query) {
         List<Destination> filteredList = new ArrayList<>();
-        for (Destination destination : destinationList) {
-            if (destination.getCountry().toLowerCase().contains(query.toLowerCase()) ||
-                    destination.getLocation().toLowerCase().contains(query.toLowerCase())) {
-                filteredList.add(destination);
+
+        if (query.isEmpty()) {
+            // If the search query is empty, reload all trips from the Firebase list
+            filteredList.addAll(destinationList);
+        } else {
+            // Filter trips based on query (country or city)
+            for (Destination destination : destinationList) {
+                if (destination.getDestinationCountry().toLowerCase().contains(query.toLowerCase()) ||
+                        destination.getDestinationCity().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(destination);
+                }
             }
         }
-        // Update the adapter with the filtered list
+
+        // Update the adapter with the filtered or full list
         adapter.updateData(filteredList);
     }
 }

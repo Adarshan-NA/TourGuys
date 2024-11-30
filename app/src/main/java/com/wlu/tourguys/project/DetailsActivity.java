@@ -31,16 +31,16 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Populate the views
         if (destination != null) {
-            tvDestinationName.setText(String.valueOf(destination.getName()));
-            tvLocation.setText(String.valueOf(destination.getLocation()));
-            tvDuration.setText(String.valueOf(destination.getDuration()));
-            tvTravelerName.setText(String.valueOf(destination.getName()));
-            tvTravelDates.setText(String.valueOf(destination.getTravelDates()));
-           tvSource.setText(String.valueOf(destination.getSource()));
-            tvTotalPeople.setText(String.valueOf(destination.getCount()));
-            tvMaleCount.setText(String.valueOf(destination.getMaleCount()));
-           tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
-          tvBudget.setText(String.valueOf(destination.getBudget()));
+            tvDestinationName.setText(destination.getDestinationCountry());
+            tvLocation.setText(destination.getDestinationCity());
+            tvDuration.setText(String.valueOf((destination.getNumDays())) + " days");
+            tvTravelerName.setText(destination.getName());
+            tvTravelDates.setText((destination.getStartDate() + " to " + destination.getEndDate()));
+            tvSource.setText(destination.getSourceCity() + ", " + destination.getSourceCountry());
+            tvTotalPeople.setText(String.valueOf(destination.getNumPeople()));
+           tvMaleCount.setText(String.valueOf(destination.getMaleCount()));
+         tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
+        tvBudget.setText(String.valueOf(destination.getBudget()));
         }
     }
 }

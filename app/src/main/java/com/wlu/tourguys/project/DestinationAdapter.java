@@ -36,10 +36,10 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
 
         // Populate the item views
         holder.name.setText("Name: " + destination.getName());
-        //holder.dates.setText("Dates: " + destination.getTravelDates());
-        holder.count.setText("Count: " + destination.getCount());
-        holder.location.setText(destination.getLocation());
-        holder.country.setText(destination.getCountry());
+        holder.dates.setText("Dates: " + destination.getStartDate() + " to " + destination.getEndDate());
+        holder.count.setText("Count: " + destination.getNumPeople());
+        holder.location.setText(destination.getDestinationCity());
+        holder.country.setText(destination.getDestinationCountry());
 
         // Handle the "Info" button click
         holder.infoButton.setOnClickListener(view -> {
@@ -72,9 +72,15 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     }
 
     // Update data for filtering
-    public void updateData(List<Destination> updatedList) {
-        destinationList.clear();
-        destinationList.addAll(updatedList);
+//    public void updateData(List<Destination> updatedList) {
+//        destinationList.clear();
+//        destinationList.addAll(updatedList);
+//        notifyDataSetChanged();
+//    }
+
+    public void updateData(List<Destination> newDestinationList) {
+        this.destinationList.clear();
+        this.destinationList.addAll(newDestinationList);
         notifyDataSetChanged();
     }
 }

@@ -4,44 +4,97 @@ import java.io.Serializable;
 
 public class Destination implements Serializable {
     private String name;
-    private String location;
-    private String country;
-    private String travelDates;
-    private int duration;
-    private String source;
-
-    public Destination(String name, String location, String country, String travelDates, int duration, String source, int count, int maleCount, int femaleCount, long budget) {
-        this.name = name;
-        this.location = location;
-        this.country = country;
-        this.travelDates = travelDates;
-        this.duration = duration;
-        this.source = source;
-        this.count = count;
-        this.maleCount = maleCount;
-        this.femaleCount = femaleCount;
-        this.budget = budget;
-    }
-
-    private int count;
+    private String destinationCity;
+    private String destinationCountry;
+    private String startDate;
+    private String endDate;
+    private int numDays;
+    private int numPeople;
     private int maleCount;
     private int femaleCount;
-    private long budget;
+    private String sourceCity;
+    private String sourceCountry;
+    private double budget;
 
-    public long getBudget() {
-        return budget;
+    // Default constructor (required for Firebase)
+    public Destination() {
     }
 
-    public void setBudget(long budget) {
+    // Constructor with all fields
+    public Destination(String name, String destinationCity, String destinationCountry, String startDate, String endDate,
+                       int numDays, int numPeople, int maleCount, int femaleCount, String sourceCity, String sourceCountry, double budget) {
+        this.name = name;
+        this.destinationCity = destinationCity;
+        this.destinationCountry = destinationCountry;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.numDays = numDays;
+        this.numPeople = numPeople;
+        this.maleCount = maleCount;
+        this.femaleCount = femaleCount;
+        this.sourceCity = sourceCity;
+        this.sourceCountry = sourceCountry;
         this.budget = budget;
     }
 
-    public int getFemaleCount() {
-        return femaleCount;
+    public Destination(String sourceCountry, String s, String numPeople, String destinationCity, String destinationCountry) {
     }
 
-    public void setFemaleCount(int femaleCount) {
-        this.femaleCount = femaleCount;
+    // Getters and Setters for each field
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDestinationCity() {
+        return destinationCity;
+    }
+
+    public void setDestinationCity(String destinationCity) {
+        this.destinationCity = destinationCity;
+    }
+
+    public String getDestinationCountry() {
+        return destinationCountry;
+    }
+
+    public void setDestinationCountry(String destinationCountry) {
+        this.destinationCountry = destinationCountry;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getNumDays() {
+        return numDays;
+    }
+
+    public void setNumDays(int numDays) {
+        this.numDays = numDays;
+    }
+
+    public int getNumPeople() {
+        return numPeople;
+    }
+
+    public void setNumPeople(int numPeople) {
+        this.numPeople = numPeople;
     }
 
     public int getMaleCount() {
@@ -52,87 +105,35 @@ public class Destination implements Serializable {
         this.maleCount = maleCount;
     }
 
-    public int getCount() {
-        return count;
+    public int getFemaleCount() {
+        return femaleCount;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setFemaleCount(int femaleCount) {
+        this.femaleCount = femaleCount;
     }
 
-    public String getSource() {
-        return source;
+    public String getSourceCity() {
+        return sourceCity;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setSourceCity(String sourceCity) {
+        this.sourceCity = sourceCity;
     }
 
-    public int getDuration() {
-        return duration;
+    public String getSourceCountry() {
+        return sourceCountry;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setSourceCountry(String sourceCountry) {
+        this.sourceCountry = sourceCountry;
     }
 
-    public String getTravelDates() {
-        return travelDates;
+    public double getBudget() {
+        return budget;
     }
 
-    public void setTravelDates(String travelDates) {
-        this.travelDates = travelDates;
+    public void setBudget(double budget) {
+        this.budget = budget;
     }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-
-    public Destination() {
-        // Required empty constructor for Firebase
-    }
-
-
-//    // Getters for Firebase
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public String getDates() {
-//        return dates;
-//    }
-//
-//    public String getCount() {
-//        return count;
-//    }
-//
-//    public String getLocation() {
-//        return location;
-//    }
-//
-//    public String getCountry() {
-//        return country;
-//    }
 }
