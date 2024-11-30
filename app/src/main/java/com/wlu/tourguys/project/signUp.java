@@ -9,18 +9,13 @@ import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -29,30 +24,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class signUp extends AppCompatActivity {
-    EditText signupPasswordEditText, signupPasswordConfirmEditText, signupEmailEditText, signupNameEditText;
-    CheckBox notARobotCheckbox;
-    Button signUpButton;
-    TextView loginOption;
+
+    private EditText signupPasswordEditText, signupPasswordConfirmEditText, signupEmailEditText, signupNameEditText, signupPhoneEditText;
+    private CheckBox notARobotCheckbox;
+    private Button signUpButton;
+    private TextView loginOption;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
-    boolean isPasswordVisible = false;
+    private boolean isPasswordVisible = false;
+    private static final int VERIFY_HUMAN_REQUEST_CODE = 1;
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sign_up);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.sign_up_screen), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
+        // Initialize views
         signupPasswordEditText = findViewById(R.id.signupPasswordEditText);
-        signupEmailEditText = findViewById(R.id.signupEmailEditText);
-        signupNameEditText = findViewById(R.id.signupNameEditText);
         signupPasswordConfirmEditText = findViewById(R.id.signupPasswordConfirmEditText);
+        signupEmailEditText = findViewById(R.id.signupEmailEditText);
+        signupPhoneEditText = findViewById(R.id.signupPhoneEditText);
+        signupNameEditText = findViewById(R.id.signupNameEditText);
         notARobotCheckbox = findViewById(R.id.not_a_robot_checkbox);
         signUpButton = findViewById(R.id.signupButton);
         loginOption = findViewById(R.id.loginOption);
@@ -60,61 +53,101 @@ public class signUp extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
+        // Toggle password visibility
         signupPasswordEditText.setOnTouchListener((v, event) -> handlePasswordToggle(event, signupPasswordEditText));
         signupPasswordConfirmEditText.setOnTouchListener((v, event) -> handlePasswordToggle(event, signupPasswordConfirmEditText));
 
+        // Navigate to login screen
         loginOption.setOnClickListener(v -> {
-            Intent intent = new Intent(signUp.this, Login.class);
-            startActivity(intent);
+            startActivity(new Intent(signUp.this, Login.class));
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
 
+        // Checkbox click listener
+        notARobotCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Intent intent = new Intent(signUp.this, verifyHuman.class);
+                startActivityForResult(intent, VERIFY_HUMAN_REQUEST_CODE);
+            }
+        });
+
+        // Sign-Up button functionality
         signUpButton.setOnClickListener(v -> {
             String email = signupEmailEditText.getText().toString().trim();
             String password = signupPasswordEditText.getText().toString().trim();
             String retypePassword = signupPasswordConfirmEditText.getText().toString().trim();
             String name = signupNameEditText.getText().toString().trim();
+            String phone = signupPhoneEditText.getText().toString().trim();
 
-            if (validateInputs(email, password, retypePassword, name)) {
-                firebaseAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                String userId = firebaseAuth.getCurrentUser().getUid();
-                                addUserToDatabase(userId, name, email);
-                                Toast.makeText(signUp.this, "Sign-Up Successful!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(signUp.this, Login.class));
-                                finish();
-                            } else {
-                                Toast.makeText(signUp.this, "Sign-Up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            if (validateInputs(email, password, retypePassword, name, phone)) {
+                registerUser(email, password, name, phone);
             }
         });
     }
 
-    private boolean validateInputs(String email, String password, String retypePassword, String name) {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("signupName", signupNameEditText.getText().toString());
+        outState.putString("signupEmail", signupEmailEditText.getText().toString());
+        outState.putString("signupPassword", signupPasswordEditText.getText().toString());
+        outState.putString("signupPasswordConfirm", signupPasswordConfirmEditText.getText().toString());
+        outState.putBoolean("notARobotChecked", notARobotCheckbox.isChecked());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        signupNameEditText.setText(savedInstanceState.getString("signupName"));
+        signupEmailEditText.setText(savedInstanceState.getString("signupEmail"));
+        signupPasswordEditText.setText(savedInstanceState.getString("signupPassword"));
+        signupPasswordConfirmEditText.setText(savedInstanceState.getString("signupPasswordConfirm"));
+        notARobotCheckbox.setChecked(savedInstanceState.getBoolean("notARobotChecked"));
+    }
+
+    private boolean validateInputs(String email, String password, String retypePassword, String name, String phone) {
         if (name.isEmpty()) {
             signupNameEditText.setError("Name cannot be empty.");
+            signupNameEditText.requestFocus();
             return false;
         }
         if (email.isEmpty()) {
             signupEmailEditText.setError("Email cannot be empty.");
+            signupEmailEditText.requestFocus();
             return false;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             signupEmailEditText.setError("Please enter a valid email.");
+            signupEmailEditText.requestFocus();
+            return false;
+        }
+        if (phone.isEmpty()) {
+            signupPhoneEditText.setError("Phone number cannot be empty.");
+            signupPhoneEditText.requestFocus();
+            return false;
+        }
+        if (phone.length() != 10) {
+            signupPhoneEditText.setError("Phone number must be exactly 10 digits.");
+            signupPhoneEditText.requestFocus();
             return false;
         }
         if (password.isEmpty()) {
             signupPasswordEditText.setError("Password cannot be empty.");
+            signupPasswordEditText.requestFocus();
             return false;
         }
         if (password.length() < 6) {
             signupPasswordEditText.setError("Password must be at least 6 characters long.");
+            signupPasswordEditText.requestFocus();
             return false;
         }
         if (!password.equals(retypePassword)) {
             signupPasswordConfirmEditText.setError("Passwords do not match.");
+            signupPasswordConfirmEditText.requestFocus();
+            return false;
+        }
+        if (!notARobotCheckbox.isChecked()) {
+            Toast.makeText(this, "Please verify that you are not a robot.", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -142,18 +175,34 @@ public class signUp extends AppCompatActivity {
         isPasswordVisible = !isPasswordVisible;
     }
 
-    private void addUserToDatabase(String userId, String name, String email) {
+    private void registerUser(String email, String password, String name, String phone) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String userId = firebaseAuth.getCurrentUser().getUid();
+                        addUserToDatabase(userId, name, email, phone);
+                        Toast.makeText(this, "Sign-Up Successful!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, Login.class));
+                        finish();
+                    } else {
+                        Log.d(TAG, "Sign-Up Error: " + task.getException().getMessage());
+                        Toast.makeText(this, "Sign-Up Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addUserToDatabase(String userId, String name, String email, String phone) {
         HashMap<String, String> user = new HashMap<>();
         user.put("name", name);
         user.put("email", email);
+        user.put("phone", phone);
 
         databaseReference.child(userId).setValue(user)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(signUp.this, "User added to database!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "User added to database!");
                     } else {
                         Log.d(TAG, "Database Error: " + task.getException().getMessage());
-                        Toast.makeText(signUp.this, "Database Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

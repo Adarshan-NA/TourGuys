@@ -45,4 +45,5 @@
     <string name="login">登录</string>
     <string name="not_a_robot">不是机器人</string>
     <string name="back">返回</string>
+    <string name="phone">电话</string>
 </resources>
