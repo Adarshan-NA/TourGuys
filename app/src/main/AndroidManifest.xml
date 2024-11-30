@@ -53,11 +53,27 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" /> <!-- Details Activity -->
-        <activity android:name=".DetailsActivity" /> <!-- Profile Activity -->
+            android:exported="true" />
+
+        <activity
+            android:name=".GuideActivity"
+            android:exported="true" />
+
+        <!-- Details Activity -->
+        <activity android:name=".DetailsActivity" 
+          android:exported="true" />     
+                  />
+
+        <!-- Profile Activity -->
         <activity
             android:name=".Profile"
-            android:exported="true" /> <!-- Profile Settings Fragment -->
+            android:exported="true" />
+
+        <!-- Profile Settings Fragment -->
+        <activity
+            android:name=".ProfileSettingsFragment"
+            tools:ignore="Instantiatable" />
+
         <!-- AddTripActivity -->
         <activity
             android:name=".AddTripActivity"
