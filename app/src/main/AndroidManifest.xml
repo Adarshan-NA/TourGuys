@@ -20,9 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.tourGuys"
         tools:targetApi="34">
-        <activity
-            android:name=".ProfileSettingsActivity"
-            android:exported="false" />
+
         <activity
             android:name=".Splash"
             android:exported="true">
@@ -62,17 +60,16 @@
         <!-- Details Activity -->
         <activity android:name=".DetailsActivity" 
           android:exported="true" />     
-                  />
+
 
         <!-- Profile Activity -->
         <activity
             android:name=".Profile"
             android:exported="true" />
-
-        <!-- Profile Settings Fragment -->
         <activity
-            android:name=".ProfileSettingsFragment"
-            tools:ignore="Instantiatable" />
+            android:name=".ProfileSettingsActivity"
+            android:exported="true" />
+
 
         <!-- AddTripActivity -->
         <activity
