@@ -72,7 +72,8 @@
 
         <!-- Profile Settings Fragment -->
         <activity
-            android:name=".ProfileSettingsFragment" />
+            android:name=".ProfileSettingsFragment"
+            tools:ignore="Instantiatable" />
 
         <!-- AddTripActivity -->
         <activity
