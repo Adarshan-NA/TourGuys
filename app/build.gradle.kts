@@ -14,7 +14,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner= "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -96,3 +96,4 @@ dependencies {
     androidTestImplementation(libs.mockito.android)
     androidTestImplementation(libs.androidx.core.testing.v210)
 }
+
