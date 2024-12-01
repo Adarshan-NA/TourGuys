@@ -36,7 +36,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:src="@drawable/profile_image"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_image"
+            android:clipToOutline="true" />
 
         <ImageView
             android:id="@+id/camera_icon"
@@ -70,60 +72,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
+                android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="8dp"
                 android:padding="12dp"
                 android:background="#E2EEEE"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#000000" />
 
-            <EditText
+            <TextView
                 android:id="@+id/email_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email address"
+                android:hint="Email"
+                android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="8dp"
                 android:padding="12dp"
                 android:background="#E2EEEE"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/password_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="8dp"
                 android:padding="12dp"
                 android:background="#E2EEEE"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/mobile_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Mobile"
+                android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="8dp"
                 android:padding="12dp"
                 android:background="#E2EEEE"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/city_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="City"
+                android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="8dp"
                 android:padding="12dp"
                 android:background="#E2EEEE"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#000000" />
 
             <EditText
                 android:id="@+id/country_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Country"
+                android:textColorHint="@android:color/darker_gray"
                 android:layout_marginTop="8dp"
                 android:padding="12dp"
                 android:background="#E2EEEE"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColor="#000000" />
         </LinearLayout>
     </ScrollView>
 

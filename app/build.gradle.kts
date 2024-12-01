@@ -14,7 +14,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner= "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.auth)
-
+    implementation(libs.google.firebase.storage)
 
     // CameraX dependencies
     implementation(libs.androidx.camera.core)
@@ -71,6 +71,9 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.logging.interceptor)
 
+    // Glide for image loading
+    implementation(libs.glide)
+
     // ML Kit Face Detection API
     implementation(libs.face.detection.v1606)
     implementation(libs.firebase.firestore)
@@ -84,7 +87,6 @@ dependencies {
     testImplementation(libs.byte.buddy)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.core.v150)
-
 
     // AndroidX testing dependencies for instrumentation tests
     androidTestImplementation(libs.androidx.junit.v115)

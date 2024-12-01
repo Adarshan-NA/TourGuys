@@ -36,6 +36,9 @@ activity = "1.9.3"
 robolectric = "4.10"
 rules = "1.6.1"
 runner = "1.6.2"
+firebase-storage = "20.2.0"
+glide = "4.15.1"
+
 
 #Madhuri
 #firebaseBom = "33.6.0"
@@ -83,7 +86,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 #commented from orginal version
 #firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestore" }
-
+google-firebase-storage = { module = "com.google.firebase:firebase-storage", version.ref = "firebase-storage" }
 #Madhuri:
 #firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 #firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebaseFirestore" }
@@ -92,3 +95,5 @@ firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuthVersion" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
