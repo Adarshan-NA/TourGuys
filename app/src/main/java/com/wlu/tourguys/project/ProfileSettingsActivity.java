@@ -43,7 +43,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 
     private EditText nameField, passwordField, mobileField, cityField, countryField;
-    private TextView emailField; // Email is now non-editable
+    private TextView emailField; // Email is non-editable
     private Button saveButton;
     private ImageView backButton, cameraIcon, profileImageView;
 
@@ -51,7 +51,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
 
-    // ActivityResultLauncher for the camera
+    // Camera launcher
     private ActivityResultLauncher<Intent> cameraLauncher;
 
     @Override
@@ -79,13 +79,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         // Load user data
         loadUserData();
 
-        // Save updated profile data
+        // Save button listener
         saveButton.setOnClickListener(v -> saveUserData());
 
-        // Navigate back to Profile activity
+        // Navigate back
         backButton.setOnClickListener(v -> navigateBackToProfile());
 
-        // Camera setup
+        // Set up camera
         setupCameraLauncher();
 
         // Handle camera icon click
@@ -100,15 +100,20 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         if (data != null && data.getExtras() != null) {
                             Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                            profileImageView.setImageBitmap(imageBitmap); // Set the captured image locally
+                            profileImageView.setImageBitmap(imageBitmap); // Display locally
                             deleteOldProfileImage(); // Delete old profile image
-                            uploadProfileImage(imageBitmap); // Save new image to Firebase
+                            uploadProfileImage(imageBitmap); // Upload new image
                         }
                     }
                 });
     }
 
     private void uploadProfileImage(Bitmap imageBitmap) {
+        if (currentUser == null) {
+            Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         StorageReference profileImageRef = storageRef.child("profile_images/" + currentUser.getUid() + ".jpg");
@@ -117,25 +122,42 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
+        Log.d(TAG, "Starting upload to: profile_images/" + currentUser.getUid() + ".jpg");
+
         UploadTask uploadTask = profileImageRef.putBytes(data);
         uploadTask.addOnSuccessListener(taskSnapshot -> {
+            Log.d(TAG, "Image uploaded successfully!");
+
             profileImageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 String imageUrl = uri.toString();
+                Log.d(TAG, "Download URL retrieved: " + imageUrl);
+
                 databaseReference.child(currentUser.getUid()).child("profileImageUrl").setValue(imageUrl)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
+                                Log.d(TAG, "Profile image URL saved to database.");
                                 Toast.makeText(ProfileSettingsActivity.this, "Profile image updated successfully!", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(ProfileSettingsActivity.this, "Failed to update profile image.", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Failed to save profile image URL in database.");
+                                Toast.makeText(ProfileSettingsActivity.this, "Failed to update profile image in database.", Toast.LENGTH_SHORT).show();
                             }
                         });
+            }).addOnFailureListener(e -> {
+                Log.e(TAG, "Failed to get download URL: " + e.getMessage());
+                Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             });
         }).addOnFailureListener(e -> {
+            Log.e(TAG, "Failed to upload image: " + e.getMessage());
             Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 
     private void deleteOldProfileImage() {
+        if (currentUser == null) {
+            Log.d(TAG, "Cannot delete old profile image. User not authenticated.");
+            return;
+        }
+
         StorageReference oldImageRef = FirebaseStorage.getInstance().getReference()
                 .child("profile_images/" + currentUser.getUid() + ".jpg");
 
@@ -174,7 +196,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     if (profileImageUrl != null) {
                         Glide.with(ProfileSettingsActivity.this)
                                 .load(profileImageUrl)
-                                .placeholder(R.drawable.profile_image) // Placeholder image
+                                .placeholder(R.drawable.profile_image)
                                 .into(profileImageView);
                     }
                 } else {
@@ -199,8 +221,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     private void launchCameraIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        PackageManager packageManager = getPackageManager();
-        List<ResolveInfo> cameraApps = packageManager.queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> cameraApps = getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
         if (cameraApps == null || cameraApps.isEmpty()) {
             Toast.makeText(this, "No camera app found.", Toast.LENGTH_SHORT).show();
