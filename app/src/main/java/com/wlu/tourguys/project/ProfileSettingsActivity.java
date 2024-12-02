@@ -9,10 +9,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,24 +30,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
 
-    protected static final String TAG = "ProfileSettingsActivity";
-    protected static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private static final String TAG = "ProfileSettingsActivity";
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 
-    protected EditText nameField, emailField, passwordField, mobileField, cityField, countryField;
-    protected Button saveButton;
-    protected ImageView backButton, cameraIcon, profileImageView;
+    private EditText nameField, passwordField, mobileField, cityField, countryField;
+    private TextView emailField; // Email is now non-editable
+    private Button saveButton;
+    private ImageView backButton, cameraIcon, profileImageView;
 
-    protected FirebaseAuth firebaseAuth;
-    protected FirebaseUser currentUser;
-    protected DatabaseReference databaseReference;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference databaseReference;
 
     // ActivityResultLauncher for the camera
-    protected ActivityResultLauncher<Intent> cameraLauncher;
+    private ActivityResultLauncher<Intent> cameraLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +92,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         cameraIcon.setOnClickListener(v -> openCamera());
     }
 
-    protected void setupCameraLauncher() {
+    private void setupCameraLauncher() {
         cameraLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -94,51 +100,53 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         if (data != null && data.getExtras() != null) {
                             Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                            profileImageView.setImageBitmap(imageBitmap); // Set the captured image
-                        } else {
-                            Log.d(TAG, "Camera activity returned no data");
+                            profileImageView.setImageBitmap(imageBitmap); // Set the captured image locally
+                            deleteOldProfileImage(); // Delete old profile image
+                            uploadProfileImage(imageBitmap); // Save new image to Firebase
                         }
-                    } else {
-                        Log.d(TAG, "Camera activity not completed successfully");
                     }
                 });
     }
 
-    protected void openCamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
-        } else {
-            launchCameraIntent();
-        }
+    private void uploadProfileImage(Bitmap imageBitmap) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference profileImageRef = storageRef.child("profile_images/" + currentUser.getUid() + ".jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = profileImageRef.putBytes(data);
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            profileImageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String imageUrl = uri.toString();
+                databaseReference.child(currentUser.getUid()).child("profileImageUrl").setValue(imageUrl)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ProfileSettingsActivity.this, "Profile image updated successfully!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ProfileSettingsActivity.this, "Failed to update profile image.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            });
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 
-    protected void launchCameraIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> cameraApps = getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+    private void deleteOldProfileImage() {
+        StorageReference oldImageRef = FirebaseStorage.getInstance().getReference()
+                .child("profile_images/" + currentUser.getUid() + ".jpg");
 
-        if (cameraApps.isEmpty()) {
-            Toast.makeText(this, "No camera app found.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Log.d(TAG, "Launching camera intent...");
-        cameraLauncher.launch(takePictureIntent);
+        oldImageRef.delete().addOnSuccessListener(aVoid -> {
+            Log.d(TAG, "Old profile image deleted successfully.");
+        }).addOnFailureListener(e -> {
+            Log.d(TAG, "Failed to delete old profile image: " + e.getMessage());
+        });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "Camera permission granted, launching camera...");
-                launchCameraIntent();
-            } else {
-                Toast.makeText(this, "Camera permission denied.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    protected void loadUserData() {
+    private void loadUserData() {
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
             return;
@@ -155,12 +163,20 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     String mobile = snapshot.child("mobile").getValue(String.class);
                     String city = snapshot.child("city").getValue(String.class);
                     String country = snapshot.child("country").getValue(String.class);
+                    String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
 
                     nameField.setText(name);
                     emailField.setText(email);
                     mobileField.setText(mobile);
                     cityField.setText(city);
                     countryField.setText(country);
+
+                    if (profileImageUrl != null) {
+                        Glide.with(ProfileSettingsActivity.this)
+                                .load(profileImageUrl)
+                                .placeholder(R.drawable.profile_image) // Placeholder image
+                                .into(profileImageView);
+                    }
                 } else {
                     Toast.makeText(ProfileSettingsActivity.this, "No user data found.", Toast.LENGTH_SHORT).show();
                 }
@@ -173,7 +189,40 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         });
     }
 
-    protected void saveUserData() {
+    private void openCamera() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+        } else {
+            launchCameraIntent();
+        }
+    }
+
+    private void launchCameraIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> cameraApps = packageManager.queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+        if (cameraApps == null || cameraApps.isEmpty()) {
+            Toast.makeText(this, "No camera app found.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        cameraLauncher.launch(takePictureIntent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launchCameraIntent();
+            } else {
+                Toast.makeText(this, "Camera permission denied.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void saveUserData() {
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
             return;
@@ -181,25 +230,29 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         String userId = currentUser.getUid();
         String name = nameField.getText().toString().trim();
-        String email = emailField.getText().toString().trim();
         String password = passwordField.getText().toString().trim();
         String mobile = mobileField.getText().toString().trim();
         String city = cityField.getText().toString().trim();
         String country = countryField.getText().toString().trim();
 
-        if (name.isEmpty() || email.isEmpty()) {
-            Toast.makeText(this, "Name and email are required!", Toast.LENGTH_SHORT).show();
+        if (name.isEmpty()) {
+            Toast.makeText(this, "Name is required!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Update Firebase fields
-        databaseReference.child(userId).child("name").setValue(name);
-        databaseReference.child(userId).child("email").setValue(email);
-        databaseReference.child(userId).child("mobile").setValue(mobile);
-        databaseReference.child(userId).child("city").setValue(city);
-        databaseReference.child(userId).child("country").setValue(country);
+        DatabaseReference userRef = databaseReference.child(userId);
+        userRef.child("name").setValue(name);
 
-        // Update password if entered
+        if (!mobile.isEmpty()) {
+            userRef.child("mobile").setValue(mobile);
+        }
+        if (!city.isEmpty()) {
+            userRef.child("city").setValue(city);
+        }
+        if (!country.isEmpty()) {
+            userRef.child("country").setValue(country);
+        }
+
         if (!password.isEmpty()) {
             currentUser.updatePassword(password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -213,7 +266,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
     }
 
-    protected void navigateBackToProfile() {
+    private void navigateBackToProfile() {
         Intent intent = new Intent(ProfileSettingsActivity.this, Profile.class);
         startActivity(intent);
         finish();

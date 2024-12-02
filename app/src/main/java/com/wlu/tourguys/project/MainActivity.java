@@ -72,9 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (userName != null) {
             greetingText.setText("Welcome, " + userName + "!");
-        } else {
-            greetingText.setText("Welcome!");
         }
+//        else {
+//            greetingText.setText("Welcome!");
+//        }
 
         // Initialize Firebase Database
         FirebaseDatabase database = FirebaseDatabase.getInstance();

@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(libs.google.firebase.auth)
-
+    implementation(libs.google.firebase.storage)
 
     // CameraX dependencies
     implementation(libs.androidx.camera.core)
@@ -71,6 +71,9 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.logging.interceptor)
 
+    // Glide for image loading
+    implementation(libs.glide)
+
     // ML Kit Face Detection API
     implementation(libs.face.detection.v1606)
     implementation(libs.firebase.firestore)
@@ -85,7 +88,6 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.core.v150)
 
-
     // AndroidX testing dependencies for instrumentation tests
     androidTestImplementation(libs.androidx.junit.v115)
     androidTestImplementation(libs.androidx.espresso.core.v351)
@@ -96,4 +98,3 @@ dependencies {
     androidTestImplementation(libs.mockito.android)
     androidTestImplementation(libs.androidx.core.testing.v210)
 }
-
