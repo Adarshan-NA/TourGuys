@@ -34,8 +34,8 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Destination destination = destinationList.get(position);
 
-        // Populate the item views
-        holder.name.setText("Name: " + destination.getName());
+        // Updated to use valid getters from Destination class
+        holder.name.setText("Location: " + destination.getDestinationCity() + ", " + destination.getDestinationCountry());
         holder.dates.setText("Dates: " + destination.getStartDate() + " to " + destination.getEndDate());
         holder.count.setText("Count: " + destination.getNumPeople());
         holder.location.setText(destination.getDestinationCity());
@@ -70,13 +70,6 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
             infoButton = itemView.findViewById(R.id.info_button);
         }
     }
-
-    // Update data for filtering
-//    public void updateData(List<Destination> updatedList) {
-//        destinationList.clear();
-//        destinationList.addAll(updatedList);
-//        notifyDataSetChanged();
-//    }
 
     public void updateData(List<Destination> newDestinationList) {
         this.destinationList.clear();
