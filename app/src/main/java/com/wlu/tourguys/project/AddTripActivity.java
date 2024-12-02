@@ -2,6 +2,7 @@ package com.wlu.tourguys.project;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,7 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class AddTripActivity extends AppCompatActivity {
 
@@ -31,6 +33,9 @@ public class AddTripActivity extends AppCompatActivity {
 
     private Calendar startDateCalendar = Calendar.getInstance();
     private Calendar endDateCalendar = Calendar.getInstance();
+
+    // User details
+    private String userName, userEmail, userPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +57,22 @@ public class AddTripActivity extends AppCompatActivity {
 
         addTripButton = findViewById(R.id.addTripButton);
 
+        // Get user details from intent (instead of query parameters)
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
+        userEmail = intent.getStringExtra("userEmail");
+        userPhone = intent.getStringExtra("userPhone");
+
         // Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Trips");
 
         // Date pickers for start date and end date
         startDateField.setOnClickListener(v -> showDatePickerDialog(startDateField, startDateCalendar));
-        endDateField.setOnClickListener(v -> showDatePickerDialog(endDateField, endDateCalendar));
+        endDateField.setOnClickListener(v -> {
+            showDatePickerDialog(endDateField, endDateCalendar);
+            calculateNumDays();
+        });
 
         // Set up button listener
         addTripButton.setOnClickListener(v -> addTripToDatabase());
@@ -92,60 +106,86 @@ public class AddTripActivity extends AppCompatActivity {
         String destinationCity = destinationCityField.getText().toString().trim();
         String startDate = startDateField.getText().toString().trim();
         String endDate = endDateField.getText().toString().trim();
-        String numPeople = numPeopleField.getText().toString().trim();
-        String maleCount = maleCountField.getText().toString().trim();
-        String femaleCount = femaleCountField.getText().toString().trim();
-        String budget = budgetField.getText().toString().trim();
+        String numDaysStr = numDaysField.getText().toString().trim();
+        String numPeopleStr = numPeopleField.getText().toString().trim();
+        String maleCountStr = maleCountField.getText().toString().trim();
+        String femaleCountStr = femaleCountField.getText().toString().trim();
+        String budgetStr = budgetField.getText().toString().trim();
 
         // Validate input
-        if (!sourceCountry.matches("[a-zA-Z]+") || !destinationCountry.matches("[a-zA-Z]+")) {
-            Toast.makeText(this, "Country names must contain only letters", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(sourceCountry) || TextUtils.isEmpty(sourceCity) ||
+                TextUtils.isEmpty(destinationCountry) || TextUtils.isEmpty(destinationCity) ||
+                TextUtils.isEmpty(startDate) || TextUtils.isEmpty(endDate) ||
+                TextUtils.isEmpty(numDaysStr) || TextUtils.isEmpty(numPeopleStr) ||
+                TextUtils.isEmpty(maleCountStr) || TextUtils.isEmpty(femaleCountStr) || TextUtils.isEmpty(budgetStr)) {
+            Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(sourceCountry) || TextUtils.isEmpty(sourceCity) || TextUtils.isEmpty(destinationCountry) ||
-                TextUtils.isEmpty(destinationCity) || TextUtils.isEmpty(startDate) || TextUtils.isEmpty(endDate) ||
-                TextUtils.isEmpty(numPeople) || TextUtils.isEmpty(maleCount) || TextUtils.isEmpty(femaleCount) ||
-                TextUtils.isEmpty(budget)) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        // Create a new trip object with user details
+        HashMap<String, String> trip = new HashMap<>();
+        trip.put("sourceCountry", sourceCountry);
+        trip.put("sourceCity", sourceCity);
+        trip.put("destinationCountry", destinationCountry);
+        trip.put("destinationCity", destinationCity);
+        trip.put("startDate", startDate);
+        trip.put("endDate", endDate);
+        trip.put("numDays", numDaysStr);
+        trip.put("numPeople", numPeopleStr);
+        trip.put("maleCount", maleCountStr);
+        trip.put("femaleCount", femaleCountStr);
+        trip.put("budget", budgetStr);
+        trip.put("userName", userName);  // Include user details
+        trip.put("userEmail", userEmail);
+        trip.put("userPhone", userPhone);
 
-        // Calculate number of days
-        String numDays = calculateNumberOfDays(startDate, endDate);
-        if (numDays == null) {
-            Toast.makeText(this, "Invalid date range", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        numDaysField.setText(numDays);
-
-        Destination trip = new Destination(sourceCountry, startDate + " to " + endDate, numPeople, destinationCity, destinationCountry);
-
+        // Push to Firebase
         String tripId = databaseReference.push().getKey();
         if (tripId != null) {
-            databaseReference.child(tripId).setValue(trip);
-            Toast.makeText(this, "Trip added successfully", Toast.LENGTH_SHORT).show();
-            finish();
+            databaseReference.child(tripId).setValue(trip)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(AddTripActivity.this, "Trip Added Successfully!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(AddTripActivity.this, MainActivity.class)); // Redirect to MainActivity
+                        } else {
+                            Toast.makeText(AddTripActivity.this, "Failed to add trip", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 
-    private void showDatePickerDialog(EditText field, Calendar calendar) {
-        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            calendar.set(year, month, dayOfMonth);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            field.setText(sdf.format(calendar.getTime()));
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+    private void showDatePickerDialog(EditText dateField, Calendar calendar) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year, month, dayOfMonth) -> {
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, month);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    updateDateField(dateField, calendar);
+                    calculateNumDays();
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 
-    private String calculateNumberOfDays(String startDate, String endDate) {
+    private void updateDateField(EditText dateField, Calendar calendar) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        dateField.setText(sdf.format(calendar.getTime()));
+    }
+
+    private void calculateNumDays() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
-            long start = sdf.parse(startDate).getTime();
-            long end = sdf.parse(endDate).getTime();
-            long days = (end - start) / (1000 * 60 * 60 * 24);
-            return days >= 0 ? String.valueOf(days + 1) : null;
+            String startDate = startDateField.getText().toString();
+            String endDate = endDateField.getText().toString();
+
+            if (!TextUtils.isEmpty(startDate) && !TextUtils.isEmpty(endDate)) {
+                long start = sdf.parse(startDate).getTime();
+                long end = sdf.parse(endDate).getTime();
+                long diff = end - start;
+                int days = (int) TimeUnit.MILLISECONDS.toDays(diff) + 1;
+                numDaysField.setText(String.valueOf(days));
+            }
         } catch (ParseException e) {
-            return null;
+            Toast.makeText(this, "Invalid dates selected", Toast.LENGTH_SHORT).show();
         }
     }
 }
