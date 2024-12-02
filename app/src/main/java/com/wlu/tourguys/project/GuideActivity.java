@@ -143,7 +143,7 @@ public class GuideActivity extends AppCompatActivity {
 
         bottomNavigation.setSelectedItemId(R.id.nav_guide);
 
-        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+        /*bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 // Handle home action
                 startActivity(new Intent(this, MainActivity.class));
@@ -157,6 +157,24 @@ public class GuideActivity extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.nav_profile) {
                 // Handle profile action
+                return true;
+            }
+            return false;
+        });*/
+        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                // Handle home action
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_add_trip) {
+                // Navigate to AddTripActivity when Add Trip icon is clicked
+                startActivity(new Intent(this, AddTripActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_guide) {
+                startActivity(new Intent(this, GuideActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_profile) {
+                startActivity(new Intent(this, Profile.class));
                 return true;
             }
             return false;
