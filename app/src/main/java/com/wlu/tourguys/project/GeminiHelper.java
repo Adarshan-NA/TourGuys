@@ -22,7 +22,7 @@ public class GeminiHelper {
         // 请求体：示例 JSON 构建
         String requestBodyJson = " location:" + location + ", weather: " + weather;
 
-        String content = "{ \"contents\": [{ \"parts\":[{\"text\": \"Provide travel advice：" + requestBodyJson + " \"}] }] }";
+        String content = "{ \"contents\": [{ \"parts\":[{\"text\": \"Generate an itinerary for a trip to this location according to the above weather conditions：" + requestBodyJson + " \"}] }] }";
 
         RequestBody body = RequestBody.create(
                 MediaType.parse("application/json"), content);

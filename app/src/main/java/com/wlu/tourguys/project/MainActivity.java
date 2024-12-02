@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Save the userName in the bundle
+        if (savedInstanceState != null) {
+            savedInstanceState.putString("USER_NAME", getIntent().getStringExtra("USER_NAME"));
+        }
+
         setContentView(R.layout.activity_main);
 
         // Initialize Views
@@ -49,7 +54,22 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
         // Retrieve the name passed from Login
-        String userName = getIntent().getStringExtra("USER_NAME");
+//        String userName = getIntent().getStringExtra("USER_NAME");
+//        if (userName != null) {
+//            greetingText.setText("Welcome, " + userName + "!");
+//        } else {
+//            greetingText.setText("Welcome!");
+//        }
+
+        String userName;
+        if (savedInstanceState != null) {
+            // Restore the userName from savedInstanceState
+            userName = savedInstanceState.getString("USER_NAME");
+        } else {
+            // Retrieve the name passed from Login
+            userName = getIntent().getStringExtra("USER_NAME");
+        }
+
         if (userName != null) {
             greetingText.setText("Welcome, " + userName + "!");
         } else {

@@ -100,7 +100,7 @@ public class GuideActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         GuideActivity.this,
                         (view, selectedYear, selectedMonth, selectedDay) -> {
-                            // 设置选择的日期
+
                             String selectedDate = String.format(Locale.getDefault(), "%d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
                             editTextDate.setText(selectedDate);
                         },
@@ -229,7 +229,7 @@ public class GuideActivity extends AppCompatActivity {
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     private void displayWeatherInfo(WeatherResponse weatherResponse) {
-        // 根据天气数据生成旅行建议
+
         locationName.setText(weatherResponse.name);
         weatherMain.setText(weatherResponse.weather.get(0).main);
         weatherDescription.setText(weatherResponse.weather.get(0).description);

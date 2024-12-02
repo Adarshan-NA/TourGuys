@@ -3,6 +3,7 @@ package com.wlu.tourguys.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,6 +16,7 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView tvDestinationName, tvLocation, tvDuration, tvTravelerName, tvTravelDates, tvSource, tvTotalPeople, tvMaleCount, tvFemaleCount, tvBudget;
     private BottomNavigationView bottomNavigation;
     private Button btnContactInfo;
+    ImageView  backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         btnContactInfo = findViewById(R.id.btn_contact_info);
+        backButton = findViewById(R.id.back_button);
 
         // Get data from intent
         Destination destination = (Destination) getIntent().getSerializableExtra("destination");
@@ -58,6 +61,12 @@ public class DetailsActivity extends AppCompatActivity {
             Intent intent = new Intent(DetailsActivity.this, ContactDetailsActivity.class);
             startActivity(intent);
         });
+
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
         // Set up Bottom Navigation View
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
