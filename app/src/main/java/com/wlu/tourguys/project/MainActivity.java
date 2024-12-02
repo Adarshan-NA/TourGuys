@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
 //            if (item.getItemId() == R.id.nav_home) {
 //                // Handle home action
-//                startActivity(new Intent(this, MainActivity.class));
-//                return true;
-//            } else
+//               startActivity(new Intent(this, MainActivity.class));
+//               return true;
+//           } else
             if (item.getItemId() == R.id.nav_add_trip) {
                 // Navigate to AddTripActivity when Add Trip icon is clicked
                 startActivity(new Intent(this, AddTripActivity.class));
