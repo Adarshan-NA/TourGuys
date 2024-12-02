@@ -47,9 +47,9 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private Button saveButton;
     private ImageView backButton, cameraIcon, profileImageView;
 
-    private FirebaseAuth firebaseAuth;
+    protected FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
-    private DatabaseReference databaseReference;
+    protected DatabaseReference databaseReference;
 
     // Camera launcher
     private ActivityResultLauncher<Intent> cameraLauncher;
@@ -108,7 +108,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 });
     }
 
-    private void uploadProfileImage(Bitmap imageBitmap) {
+    protected void uploadProfileImage(Bitmap imageBitmap) {
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
             return;
@@ -152,7 +152,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteOldProfileImage() {
+    protected void deleteOldProfileImage() {
         if (currentUser == null) {
             Log.d(TAG, "Cannot delete old profile image. User not authenticated.");
             return;
@@ -168,7 +168,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void loadUserData() {
+    protected void loadUserData() {
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
             return;
@@ -243,7 +243,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void saveUserData() {
+    protected void saveUserData() {
         if (currentUser == null) {
             Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
             return;
