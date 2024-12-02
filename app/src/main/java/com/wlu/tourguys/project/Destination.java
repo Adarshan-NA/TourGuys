@@ -1,14 +1,15 @@
 package com.wlu.tourguys.project;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Destination implements Serializable {
-    private String name;
     private String destinationCity;
     private String destinationCountry;
     private String startDate;
     private String endDate;
-    private int numDays;
     private int numPeople;
     private int maleCount;
     private int femaleCount;
@@ -21,14 +22,12 @@ public class Destination implements Serializable {
     }
 
     // Constructor with all fields
-    public Destination(String name, String destinationCity, String destinationCountry, String startDate, String endDate,
-                       int numDays, int numPeople, int maleCount, int femaleCount, String sourceCity, String sourceCountry, double budget) {
-        this.name = name;
+    public Destination(String destinationCity, String destinationCountry, String startDate, String endDate,
+                       int numPeople, int maleCount, int femaleCount, String sourceCity, String sourceCountry, double budget) {
         this.destinationCity = destinationCity;
         this.destinationCountry = destinationCountry;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.numDays = numDays;
         this.numPeople = numPeople;
         this.maleCount = maleCount;
         this.femaleCount = femaleCount;
@@ -37,18 +36,7 @@ public class Destination implements Serializable {
         this.budget = budget;
     }
 
-    public Destination(String sourceCountry, String s, String numPeople, String destinationCity, String destinationCountry) {
-    }
-
-    // Getters and Setters for each field
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    // Getters and Setters
     public String getDestinationCity() {
         return destinationCity;
     }
@@ -81,36 +69,28 @@ public class Destination implements Serializable {
         this.endDate = endDate;
     }
 
-    public int getNumDays() {
-        return numDays;
-    }
-
-    public void setNumDays(int numDays) {
-        this.numDays = numDays;
-    }
-
     public int getNumPeople() {
         return numPeople;
     }
 
-    public void setNumPeople(int numPeople) {
-        this.numPeople = numPeople;
+    public void setNumPeople(Object numPeople) {
+        this.numPeople = parseIntSafely(numPeople);
     }
 
     public int getMaleCount() {
         return maleCount;
     }
 
-    public void setMaleCount(int maleCount) {
-        this.maleCount = maleCount;
+    public void setMaleCount(Object maleCount) {
+        this.maleCount = parseIntSafely(maleCount);
     }
 
     public int getFemaleCount() {
         return femaleCount;
     }
 
-    public void setFemaleCount(int femaleCount) {
-        this.femaleCount = femaleCount;
+    public void setFemaleCount(Object femaleCount) {
+        this.femaleCount = parseIntSafely(femaleCount);
     }
 
     public String getSourceCity() {
@@ -133,7 +113,54 @@ public class Destination implements Serializable {
         return budget;
     }
 
-    public void setBudget(double budget) {
-        this.budget = budget;
+    public void setBudget(Object budget) {
+        this.budget = parseDoubleSafely(budget);
+    }
+
+    // Method to calculate the number of days between startDate and endDate
+    public int getNumDays() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Use your date format
+        try {
+            Date start = sdf.parse(startDate);
+            Date end = sdf.parse(endDate);
+            long difference = end.getTime() - start.getTime();
+            return (int) (difference / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0; // Return 0 if there's an error in parsing
+        }
+    }
+
+    // Method to return a meaningful name (combine city and country)
+    public String getName() {
+        return destinationCity + ", " + destinationCountry;
+    }
+
+    // Helper method to parse integers safely
+    private int parseIntSafely(Object value) {
+        if (value instanceof Integer) {
+            return (int) value;
+        } else if (value instanceof String) {
+            try {
+                return Integer.parseInt((String) value);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0; // Default to 0 if the type is unexpected or parsing fails
+    }
+
+    // Helper method to parse doubles safely
+    private double parseDoubleSafely(Object value) {
+        if (value instanceof Double) {
+            return (double) value;
+        } else if (value instanceof String) {
+            try {
+                return Double.parseDouble((String) value);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0.0; // Default to 0.0 if the type is unexpected or parsing fails
     }
 }

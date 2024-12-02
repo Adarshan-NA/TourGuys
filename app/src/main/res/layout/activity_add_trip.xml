@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    tools:context=".AddTripActivity">
 
+    <!-- Scrollable Layout -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation">
+        android:layout_height="0dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,102 +21,115 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Trip Details"
-                android:textColor="#8BC34A"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Form Fields -->
+            <!-- Source Country -->
             <EditText
                 android:id="@+id/sourceCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Source Country" />
+                android:hint="Source Country"
+                android:inputType="text"
+                android:padding="10dp" />
 
+            <!-- Source City -->
             <EditText
                 android:id="@+id/sourceCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Source City"
+                android:inputType="text"
+                android:padding="10dp"
                 android:layout_marginTop="8dp" />
 
+            <!-- Destination Country -->
             <EditText
                 android:id="@+id/destinationCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Destination Country"
-                android:layout_marginTop="16dp" />
+                android:inputType="text"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
 
+            <!-- Destination City -->
             <EditText
                 android:id="@+id/destinationCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Destination City"
+                android:inputType="text"
+                android:padding="10dp"
                 android:layout_marginTop="8dp" />
 
-            <!-- Travel Dates -->
-            <LinearLayout
+            <!-- Start Date -->
+            <EditText
+                android:id="@+id/startDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:hint="Start Date (YYYY-MM-DD)"
+                android:focusable="false"
+                android:inputType="none"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
 
-                <EditText
-                    android:id="@+id/startDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Start Date"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp" />
+            <!-- End Date -->
+            <EditText
+                android:id="@+id/endDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="End Date (YYYY-MM-DD)"
+                android:focusable="false"
+                android:inputType="none"
+                android:padding="10dp"
+                android:layout_marginTop="8dp" />
 
-                <EditText
-                    android:id="@+id/endDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="End Date"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <!-- Other Fields -->
+            <!-- Number of Days (Auto-calculated) -->
             <EditText
                 android:id="@+id/numDays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Number of Days"
+                android:hint="Number of Days (Auto-calculated)"
+                android:focusable="false"
+                android:padding="10dp"
                 android:layout_marginTop="8dp" />
 
+            <!-- Number of People -->
             <EditText
                 android:id="@+id/numPeople"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Number of People"
+                android:inputType="number"
+                android:padding="10dp"
                 android:layout_marginTop="8dp" />
 
+            <!-- Male Count -->
             <EditText
                 android:id="@+id/maleCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Male Count"
+                android:inputType="number"
+                android:padding="10dp"
                 android:layout_marginTop="8dp" />
 
+            <!-- Female Count -->
             <EditText
                 android:id="@+id/femaleCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Female Count"
+                android:inputType="number"
+                android:padding="10dp"
                 android:layout_marginTop="8dp" />
 
+            <!-- Budget -->
             <EditText
                 android:id="@+id/budget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Budget"
+                android:hint="Budget ($)"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
                 android:layout_marginTop="8dp" />
 
             <!-- Add Trip Button -->
@@ -120,20 +138,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Add Trip"
-                android:backgroundTint="#3F51B5"
-                android:textColor="#FFFFFF"
                 android:layout_marginTop="16dp" />
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation at the bottom -->
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"
-        android:background="?android:attr/windowBackground" />
-
-</RelativeLayout>
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>

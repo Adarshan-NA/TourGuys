@@ -8,9 +8,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
-
-
 public class DetailsActivity extends AppCompatActivity {
 
     private TextView tvDestinationName, tvLocation, tvDuration, tvTravelerName, tvTravelDates, tvSource, tvTotalPeople, tvMaleCount, tvFemaleCount, tvBudget;
@@ -51,9 +48,9 @@ public class DetailsActivity extends AppCompatActivity {
             tvTravelDates.setText((destination.getStartDate() + " to " + destination.getEndDate()));
             tvSource.setText(destination.getSourceCity() + ", " + destination.getSourceCountry());
             tvTotalPeople.setText(String.valueOf(destination.getNumPeople()));
-           tvMaleCount.setText(String.valueOf(destination.getMaleCount()));
-         tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
-        tvBudget.setText(String.valueOf(destination.getBudget()));
+            tvMaleCount.setText(String.valueOf(destination.getMaleCount()));
+            tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
+            tvBudget.setText(String.valueOf(destination.getBudget()));
         }
 
         // Set up button to navigate to ContactDetails
@@ -87,6 +84,4 @@ public class DetailsActivity extends AppCompatActivity {
             return false;
         });
     }
-
-
 }
