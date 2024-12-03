@@ -10,11 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,13 +35,15 @@ public class AddTripActivity extends AppCompatActivity {
     private EditText startDateField, endDateField, numDaysField, numPeopleField, maleCountField, femaleCountField, budgetField;
     private Button addTripButton;
 
-    private DatabaseReference databaseReference;
+    protected FirebaseAuth firebaseAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference databaseReference, databaseReferenceUser;
 
     private Calendar startDateCalendar = Calendar.getInstance();
     private Calendar endDateCalendar = Calendar.getInstance();
 
     // User details
-    private String userName, userEmail, userPhone;
+    public String userName, userEmail, userPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +65,16 @@ public class AddTripActivity extends AppCompatActivity {
 
         addTripButton = findViewById(R.id.addTripButton);
 
-        // Get user details from intent (instead of query parameters)
-        Intent intent = getIntent();
-        userName = intent.getStringExtra("userName");
-        userEmail = intent.getStringExtra("userEmail");
-        userPhone = intent.getStringExtra("userPhone");
-
         // Initialize Firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Trips");
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        databaseReferenceUser = database.getReference("Users");
+
+        // Load user data
+        loadUserData();
 
         // Date pickers for start date and end date
         startDateField.setOnClickListener(v -> showDatePickerDialog(startDateField, startDateCalendar));
@@ -97,6 +106,35 @@ public class AddTripActivity extends AppCompatActivity {
 
         // Set the current selection to Add Trip
         bottomNavigationView.setSelectedItemId(R.id.nav_add_trip);
+    }
+
+    public void loadUserData(){
+        if (currentUser == null) {
+            Toast.makeText(this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
+
+        databaseReferenceUser.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String name = snapshot.child("name").getValue(String.class);
+                    String email = snapshot.child("email").getValue(String.class);
+                    String mobile = snapshot.child("phone").getValue(String.class);
+                    userName = name;
+                    userEmail = email;
+                    userPhone = mobile;
+                } else {
+                    Toast.makeText(AddTripActivity.this, "No user data found.", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AddTripActivity.this, "Failed to load user data.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void addTripToDatabase() {
@@ -170,6 +208,8 @@ public class AddTripActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         dateField.setText(sdf.format(calendar.getTime()));
     }
+
+
 
     private void calculateNumDays() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
