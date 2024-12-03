@@ -182,14 +182,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String name = snapshot.child("name").getValue(String.class);
                     String email = snapshot.child("email").getValue(String.class);
-                    String mobile = snapshot.child("mobile").getValue(String.class);
+                    String phone = snapshot.child("phone").getValue(String.class);
                     String city = snapshot.child("city").getValue(String.class);
                     String country = snapshot.child("country").getValue(String.class);
                     String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
 
                     nameField.setText(name);
                     emailField.setText(email);
-                    mobileField.setText(mobile);
+                    mobileField.setText(phone);
                     cityField.setText(city);
                     countryField.setText(country);
 
@@ -252,7 +252,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         String userId = currentUser.getUid();
         String name = nameField.getText().toString().trim();
         String password = passwordField.getText().toString().trim();
-        String mobile = mobileField.getText().toString().trim();
+        String phone = mobileField.getText().toString().trim();
         String city = cityField.getText().toString().trim();
         String country = countryField.getText().toString().trim();
 
@@ -264,8 +264,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         DatabaseReference userRef = databaseReference.child(userId);
         userRef.child("name").setValue(name);
 
-        if (!mobile.isEmpty()) {
-            userRef.child("mobile").setValue(mobile);
+        if (!phone.isEmpty()) {
+            userRef.child("phone").setValue(phone);
         }
         if (!city.isEmpty()) {
             userRef.child("city").setValue(city);
@@ -285,6 +285,9 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(ProfileSettingsActivity.this, Profile.class);
+        startActivity(intent);
+        finish();
     }
 
     private void navigateBackToProfile() {
