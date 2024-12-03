@@ -211,6 +211,24 @@ public class AddTripActivity extends AppCompatActivity {
 
 
 
+//    private void calculateNumDays() {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//        try {
+//            String startDate = startDateField.getText().toString();
+//            String endDate = endDateField.getText().toString();
+//
+//            if (!TextUtils.isEmpty(startDate) && !TextUtils.isEmpty(endDate)) {
+//                long start = sdf.parse(startDate).getTime();
+//                long end = sdf.parse(endDate).getTime();
+//                long diff = end - start;
+//                int days = (int) TimeUnit.MILLISECONDS.toDays(diff) + 1;
+//                numDaysField.setText(String.valueOf(days));
+//            }
+//        } catch (ParseException e) {
+//            Toast.makeText(this, "Invalid dates selected", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
     private void calculateNumDays() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
@@ -220,6 +238,14 @@ public class AddTripActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(startDate) && !TextUtils.isEmpty(endDate)) {
                 long start = sdf.parse(startDate).getTime();
                 long end = sdf.parse(endDate).getTime();
+
+                if (end < start) {
+                    Toast.makeText(this, "End date cannot be less than start date", Toast.LENGTH_SHORT).show();
+                    endDateField.setText(""); // Clear the invalid end date
+                    numDaysField.setText(""); // Clear the number of days
+                    return;
+                }
+
                 long diff = end - start;
                 int days = (int) TimeUnit.MILLISECONDS.toDays(diff) + 1;
                 numDaysField.setText(String.valueOf(days));
