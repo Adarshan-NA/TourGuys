@@ -36,7 +36,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_address"
+                    android:text="Location:"
                     android:textSize="16sp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="8dp" />
@@ -88,9 +88,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/button_get_info"
-                android:padding="12dp"
+                android:padding="10dp"
+                android:textSize="18dp"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/primaryColor"
+                android:background="@drawable/button_rectangle"
                 android:textColor="@android:color/white"
                 android:layout_marginBottom="16dp" />
 
@@ -114,7 +115,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:background="@color/white"
+                    >
 
                     <TextView
                         android:id="@+id/location_name"
@@ -122,70 +125,70 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/weather_main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/weather_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="8dp" />
 
                     <TextView
                         android:id="@+id/temperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/feels_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/temp_min_max"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/pressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/sunrise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:layout_marginBottom="4dp" />
 
                     <TextView
                         android:id="@+id/sunset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@android:color/black" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -202,14 +205,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardElevation="4dp"
-                app:cardBackgroundColor="#000000">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <TextView
                     android:id="@+id/travel_advice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/hint_travel_advice"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:padding="16dp" />
             </androidx.cardview.widget.CardView>
 
