@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.ViewHolder> {
@@ -23,6 +24,10 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
         this.context = context;
     }
 
+    // New method for testing
+    public List<Destination> getCurrentList() {
+        return new ArrayList<>(destinationList);
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
