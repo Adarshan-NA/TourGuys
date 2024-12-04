@@ -2,6 +2,7 @@ package com.wlu.tourguys.project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,16 +42,22 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Populate the views
         if (destination != null) {
+            // Update the views with the data from the destination object
+
             tvDestinationName.setText(destination.getDestinationCountry());
             tvLocation.setText(destination.getDestinationCity());
             tvDuration.setText(String.valueOf((destination.getNumDays())) + " days");
-            tvTravelerName.setText(destination.getName());
+            tvTravelerName.setText(destination.getUserName());
             tvTravelDates.setText((destination.getStartDate() + " to " + destination.getEndDate()));
             tvSource.setText(destination.getSourceCity() + ", " + destination.getSourceCountry());
             tvTotalPeople.setText(String.valueOf(destination.getNumPeople()));
             tvMaleCount.setText(String.valueOf(destination.getMaleCount()));
             tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
             tvBudget.setText(String.valueOf(destination.getBudget()));
+            Log.i("DetailsActivity",destination.getUserEmail()
+            );
+            Log.i("DetailsActivity",destination.getUserPhone()
+            );
         }
 
         // Set up button to navigate to ContactDetails

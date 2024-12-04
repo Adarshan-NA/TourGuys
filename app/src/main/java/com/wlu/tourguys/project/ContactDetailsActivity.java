@@ -1,5 +1,6 @@
 package com.wlu.tourguys.project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +22,8 @@ public class ContactDetailsActivity extends AppCompatActivity {
     private TextView profileName, profileLocation, phoneText, emailText;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
+    private BottomNavigationView bottomNavigation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
         profileLocation = findViewById(R.id.profileLocation);
         phoneText = findViewById(R.id.phoneText);
         emailText = findViewById(R.id.emailText);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
 
         // Initialize Firebase
         firebaseAuth = FirebaseAuth.getInstance();
@@ -40,6 +45,27 @@ public class ContactDetailsActivity extends AppCompatActivity {
         // Fetch user data from Firebase
         String userId = firebaseAuth.getCurrentUser().getUid();
         fetchUserData(userId);
+
+
+        // Set up Bottom Navigation View
+        bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                // Handle home action
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_add_trip) {
+                // Navigate to AddTripActivity when Add Trip icon is clicked
+                startActivity(new Intent(this, AddTripActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_guide) {
+                startActivity(new Intent(this, GuideActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_profile) {
+                startActivity(new Intent(this, Profile.class));
+                return true;
+            }
+            return false;
+        });
 
         // Back button click listener
         backButton.setOnClickListener(v -> {
