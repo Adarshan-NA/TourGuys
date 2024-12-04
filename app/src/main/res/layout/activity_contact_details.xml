@@ -8,7 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation">
+        android:layout_above="@+id/bottom_navigation">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,7 +21,9 @@
                 android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_arrow" />
+                android:src="@drawable/ic_back_arrow"
+                android:background="@null"
+                android:contentDescription="Back" />
 
             <!-- Profile Image -->
             <ImageView
@@ -33,21 +35,22 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp" />
 
-            <!-- Name and Location -->
+            <!-- Name -->
             <TextView
                 android:id="@+id/profileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ann Press"
+                android:text="Name Placeholder"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_gravity="center" />
 
+            <!-- Location Placeholder -->
             <TextView
                 android:id="@+id/profileLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Surabaya, Indonesia"
+                android:text="Location Placeholder"
                 android:layout_gravity="center" />
 
             <!-- Contact Details Title -->
@@ -60,7 +63,7 @@
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
-            <!-- Contact Methods (Phone, Email, Instagram) -->
+            <!-- Phone -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,17 +71,20 @@
                 android:layout_marginTop="16dp">
 
                 <ImageView
+                    android:id="@+id/phoneIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_phone" />
 
                 <TextView
+                    android:id="@+id/phoneText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(+62) 567-132-8965"
-                    android:layout_marginStart="8dp" />
+                    android:layout_marginStart="8dp"
+                    android:text="Phone Number Placeholder" />
             </LinearLayout>
 
+            <!-- Email -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,33 +92,17 @@
                 android:layout_marginTop="8dp">
 
                 <ImageView
+                    android:id="@+id/emailIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_email" />
 
                 <TextView
+                    android:id="@+id/emailText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="aan.press@mail.com"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_instagram" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="_AnnPress_"
-                    android:layout_marginStart="8dp" />
+                    android:layout_marginStart="8dp"
+                    android:text="Email Placeholder" />
             </LinearLayout>
 
         </LinearLayout>
@@ -125,6 +115,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="unlabeled"
-        app:itemIconSize="40dp" />
+        android:background="?android:attr/windowBackground" />
+
 </RelativeLayout>
