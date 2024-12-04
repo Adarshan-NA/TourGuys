@@ -33,7 +33,7 @@ firebaseAuth = "23.1.0"
 firebaseFirestore = "24.7.1"
 firebaseAuthVersion = "23.1.0"
 activity = "1.9.3"
-robolectric = "4.10"
+#robolectric = "4.10"
 rules = "1.6.1"
 runner = "1.6.2"
 firebase-storage = "20.2.0"
@@ -41,8 +41,10 @@ glide = "4.15.1"
 
 
 #Madhuri
-#firebaseBom = "33.6.0"
-#firebaseFirestore = "24.7.1" # Replace with a compatible version if necessary
+robolectric = "4.11.1"
+androidx-test-core = "1.5.0"
+androidx-test-ext-junit = "1.1.5"
+mockito = "4.5.1"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -97,3 +99,16 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+#03-Dec
+testing-robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+testing-androidx-core = { group = "androidx.test", name = "core", version.ref = "androidx-test-core" }
+testing-androidx-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+testing-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+
+[bundles]
+testing = [
+    "testing-robolectric",
+    "testing-androidx-core",
+    "testing-androidx-ext-junit",
+    "testing-mockito-core"
+]

@@ -28,9 +28,20 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    //        sourceCompatibility = JavaVersion.VERSION_1_8
+    //        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+
+        }
+    }
+
+
 }
 
 dependencies {
@@ -87,6 +98,10 @@ dependencies {
     testImplementation(libs.byte.buddy)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.core.v150)
+
+    testImplementation(libs.bundles.testing)
+
+
 
     // AndroidX testing dependencies for instrumentation tests
     androidTestImplementation(libs.androidx.junit.v115)

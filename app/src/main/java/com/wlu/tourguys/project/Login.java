@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
     boolean isPasswordVisible = false;
     Button loginButton;
     public SharedPreferences sharedPreferences;
-    private FirebaseAuth firebaseAuth;
+    public FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class Login extends AppCompatActivity {
         loginEmailEditText.setText(storedEmail);
     }
 
-    private boolean validateInputs(String email, String password) {
+    public boolean validateInputs(String email, String password) {
         if (email.isEmpty()) {
             loginEmailEditText.setError("Email field cannot be empty. Please enter your email.");
             return false;
@@ -141,7 +141,7 @@ public class Login extends AppCompatActivity {
 //                });
 //    }
 
-    private void signIn(String email, String password) {
+    public void signIn(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -161,7 +161,7 @@ public class Login extends AppCompatActivity {
     }
 
 
-    private void saveLoginState(String email) {
+    public void saveLoginState(String email) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isLoggedIn", true);
         editor.putString("userEmail", email);
@@ -192,7 +192,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void saveEmailToPreferences(String email) {
+    public void saveEmailToPreferences(String email) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("DefaultEmail", email);
         editor.apply();
@@ -215,7 +215,7 @@ public class Login extends AppCompatActivity {
         finish(); // Ensure the user cannot navigate back to the login screen
     }
 
-    private void togglePasswordVisibility() {
+    public void togglePasswordVisibility() {
         if (isPasswordVisible) {
             loginPasswordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             loginPasswordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.password_eye, 0);

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,8 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
     // Firebase Database reference
     private DatabaseReference databaseReference;
-    private List<Destination> destinationList = new ArrayList<>();
-    private DestinationAdapter adapter;
+
+    // Make destinationList and adapter accessible for testing
+    @VisibleForTesting
+    List<Destination> destinationList = new ArrayList<>();
+    @VisibleForTesting
+    DestinationAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,23 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Retrieve the name passed from Login
         String userName = getIntent().getStringExtra("USER_NAME");
-        if (userName != null) {
-            greetingText.setText("Welcome, " + userName + "!");
-        }
-        else {
-            greetingText.setText("Welcome!");
-        }
+        updateGreetingText(userName);
 
         // Initialize Firebase Database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Trips");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Trips");
 
         // Set up RecyclerView
         recyclerViewTrips.setLayoutManager(new LinearLayoutManager(this));
-//        adapter = new DestinationAdapter(destinationList);
-//        recyclerViewTrips.setAdapter(adapter);
-
-        // Updated adapter initialization
         adapter = new DestinationAdapter(destinationList, this);
         recyclerViewTrips.setAdapter(adapter);
 
@@ -74,6 +69,25 @@ public class MainActivity extends AppCompatActivity {
         fetchTripsFromFirebase();
 
         // Set up the search functionality
+        setupSearchListener();
+
+        // Set up Bottom Navigation View
+        setupBottomNavigation();
+    }
+
+    // Extracted method for easier testing
+    @VisibleForTesting
+    void updateGreetingText(String userName) {
+        if (userName != null) {
+            greetingText.setText("Welcome, " + userName + "!");
+        } else {
+            greetingText.setText("Welcome!");
+        }
+    }
+
+    // Extracted method for better testability
+    @VisibleForTesting
+    void setupSearchListener() {
         searchDestination.addTextChangedListener(new android.text.TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {}
@@ -86,22 +100,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(android.text.Editable editable) {}
         });
+    }
 
-        // Set up Bottom Navigation View
+    // Extracted method for better testability
+    @VisibleForTesting
+    void setupBottomNavigation() {
         bottomNavigation.setOnNavigationItemSelectedListener(item -> {
+            Intent intent = null;
             if (item.getItemId() == R.id.nav_home) {
-                // Handle home action
-                startActivity(new Intent(this, MainActivity.class));
-                return true;
+                intent = new Intent(this, MainActivity.class);
             } else if (item.getItemId() == R.id.nav_add_trip) {
-                // Navigate to AddTripActivity when Add Trip icon is clicked
-                startActivity(new Intent(this, AddTripActivity.class));
-                return true;
+                intent = new Intent(this, AddTripActivity.class);
             } else if (item.getItemId() == R.id.nav_guide) {
-                startActivity(new Intent(this, GuideActivity.class));
-                return true;
+                intent = new Intent(this, GuideActivity.class);
             } else if (item.getItemId() == R.id.nav_profile) {
-                startActivity(new Intent(this, Profile.class));
+                intent = new Intent(this, Profile.class);
+            }
+
+            if (intent != null) {
+                startActivity(intent);
                 return true;
             }
             return false;
@@ -109,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Fetch trips from Firebase
-    private void fetchTripsFromFirebase() {
+    @VisibleForTesting
+    void fetchTripsFromFirebase() {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -131,26 +149,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Filter trips based on search query (country or city)
-//    private void filterTrips(String query) {
-//        List<Destination> filteredList = new ArrayList<>();
-//        for (Destination destination : destinationList) {
-//            if (destination.getDestinationCountry().toLowerCase().contains(query.toLowerCase()) ||
-//                    destination.getDestinationCity().toLowerCase().contains(query.toLowerCase())) {
-//                filteredList.add(destination);
-//            }
-//        }
-//        // Update the adapter with the filtered list
-//        adapter.updateData(filteredList);
-//    }
-
-    private void filterTrips(String query) {
+    // Public method for testing search functionality
+    @VisibleForTesting
+    public void filterTrips(String query) {
         List<Destination> filteredList = new ArrayList<>();
 
         if (query.isEmpty()) {
             // If the search query is empty, reload all trips from the Firebase list
-           // filteredList.addAll(destinationList);
-            // Fetch trips from Firebase
             fetchTripsFromFirebase();
         } else {
             // Filter trips based on query (country or city)
@@ -164,5 +169,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Update the adapter with the filtered or full list
         adapter.updateData(filteredList);
+    }
+
+    // Getter methods for testing
+    @VisibleForTesting
+    public List<Destination> getDestinationList() {
+        return new ArrayList<>(destinationList);
+    }
+
+    @VisibleForTesting
+    public DestinationAdapter getAdapter() {
+        return adapter;
     }
 }
