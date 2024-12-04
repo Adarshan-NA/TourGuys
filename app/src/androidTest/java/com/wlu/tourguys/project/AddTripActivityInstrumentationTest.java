@@ -5,8 +5,8 @@ import android.widget.EditText;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,13 +17,14 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 @RunWith(AndroidJUnit4.class)
 public class AddTripActivityInstrumentationTest {
 
     @Rule
-    public ActivityTestRule<AddTripActivity> activityRule =
-            new ActivityTestRule<>(AddTripActivity.class);
+    public ActivityScenarioRule<AddTripActivity> activityRule =
+            new ActivityScenarioRule<>(AddTripActivity.class);
 
     @Before
     public void setUp() {
@@ -60,7 +61,7 @@ public class AddTripActivityInstrumentationTest {
 
         // Assert - Verify if the trip was added (this can be verified by checking for Toast or activity redirection)
         // For example, checking if MainActivity is launched:
-        onView(withId(R.id.mainActivity)).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerView_trips)).check(matches(isDisplayed()));
     }
 
     @Test

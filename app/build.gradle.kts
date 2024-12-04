@@ -92,6 +92,7 @@ dependencies {
 
     // Testing dependencies for unit tests
     testImplementation(libs.junit.v413)
+    testImplementation(libs.core.testing)
     testImplementation(libs.mockito.core.v400)
     testImplementation(libs.mockito.inline.v400)
     testImplementation(libs.robolectric.v461)
