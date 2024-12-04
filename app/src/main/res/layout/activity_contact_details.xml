@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F7F7">
+    android:background="#FFFFFF">
 
     <ImageButton
         android:id="@+id/backButton"
@@ -31,6 +32,16 @@
             android:background="#FFFFFF"
             android:elevation="4dp"
             android:layout_marginTop="8dp">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:src="@drawable/back_button_black_on_white"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:id="@+id/profileName"
