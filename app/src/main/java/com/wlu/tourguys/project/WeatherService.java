@@ -16,5 +16,6 @@ public interface WeatherService {
             @Query("units") String units
     );
 
+    Object getWeatherData(double v, double v1, String s);
 }
 

@@ -45,14 +45,14 @@ public class GuideActivity extends AppCompatActivity {
 
     private static final String map_api_key = "AIzaSyARxN4eObMVQ92qm45dsEARH4wBfUIg7dk";
 
-    private EditText editTextLocation;
+    EditText editTextLocation;
     private TextView editTextDate;
     private TextView textViewResult;
-    private WeatherService weatherService;
+    WeatherService weatherService;
 
     private TextView locationName;
-    private TextView weatherMain;
-    private TextView weatherDescription;
+    TextView weatherMain;
+    TextView weatherDescription;
     private TextView temperature;
     private TextView feelsLike;
     private TextView tempMinMax;
@@ -62,11 +62,11 @@ public class GuideActivity extends AppCompatActivity {
     private TextView sunset;
     private TextView travelAdvice;
 
-    private double latitude;
+    double latitude;
 
-    private double longitude;
+    double longitude;
 
-    private BottomNavigationView bottomNavigation;
+    BottomNavigationView bottomNavigation;
 
     private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
 
@@ -88,7 +88,6 @@ public class GuideActivity extends AppCompatActivity {
                     .build(GuideActivity.this);
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
         });
-
         editTextDate = findViewById(R.id.date_input);
         editTextDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,7 +224,7 @@ public class GuideActivity extends AppCompatActivity {
         }
     }
 
-    private void fetchWeatherData(double lat, double lon, long timestamp) {
+    void fetchWeatherData(double lat, double lon, long timestamp) {
         String apiKey = "8cd894b6c63a38fa958cfc7e739f112b";
         Call<WeatherResponse> call = weatherService.getWeather(lat, lon, apiKey, timestamp, "en_us", "metric");
         call.enqueue(new Callback<WeatherResponse>() {
@@ -284,7 +283,7 @@ public class GuideActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validateInput(String location, String date) {
+    boolean validateInput(String location, String date) {
         if (location.isEmpty()) {
             editTextLocation.setError("Location cannot be empty");
             return false;
@@ -296,7 +295,7 @@ public class GuideActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean isValidDate(String date) {
+    boolean isValidDate(String date) {
         String regex = "^\\d{4}-\\d{2}-\\d{2}$";
         return date.matches(regex);
     }
