@@ -1,0 +1,11 @@
+plantuml
+@startuml
+component "MainActivity" as A
+component "LoginFragment" as B
+component "HomeFragment" as C
+component "MyService" as D
+
+A --> B : launches
+A --> C : launches
+A <--> D : interacts with
+@enduml
