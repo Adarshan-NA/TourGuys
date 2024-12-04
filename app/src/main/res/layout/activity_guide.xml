@@ -32,10 +32,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_travel_advice"
-                android:textSize="24sp"
-                android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="16dp" />
+                android:textSize="36sp"
+                android:padding="10dp"
+                android:textColor="#B0D8BC"
+                android:textStyle="bold"
+                />
 
             <!-- 地点 -->
             <LinearLayout

@@ -15,6 +15,7 @@ public class DetailsActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
     private Button btnContactInfo;
     ImageView backButton;
+    String userEmail, userPhone, userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +59,17 @@ public class DetailsActivity extends AppCompatActivity {
             );
             Log.i("DetailsActivity",destination.getUserPhone()
             );
+            userEmail = destination.getUserEmail();
+            userPhone = destination.getUserPhone();
+            userName = destination.getUserName();
         }
 
         // Set up button to navigate to ContactDetails
         btnContactInfo.setOnClickListener(view -> {
             Intent intent = new Intent(DetailsActivity.this, ContactDetailsActivity.class);
+            intent.putExtra("userEmail", userEmail);
+            intent.putExtra("userPhone", userPhone);
+            intent.putExtra("userName", userName);
             startActivity(intent);
         });
 
