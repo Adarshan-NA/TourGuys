@@ -21,7 +21,28 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:src="@drawable/back_button_black_on_white"
+                tools:ignore="TouchTargetSizeCheck" />
+
             <!-- Source Country -->
+            <TextView
+                android:id="@+id/tripDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trip details"
+                android:layout_gravity="center"
+                android:textSize="36sp"
+                android:padding="10dp"
+                android:textColor="#B0D8BC"
+                android:textStyle="bold"
+                />
             <EditText
                 android:id="@+id/sourceCountry"
                 android:layout_width="match_parent"
@@ -103,16 +124,17 @@
                 android:layout_marginTop="8dp" />
 
             <!-- Male Count -->
+
+            <!-- Female Count -->
             <EditText
                 android:id="@+id/maleCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:hint="Male Count"
                 android:inputType="number"
-                android:padding="10dp"
-                android:layout_marginTop="8dp" />
+                android:padding="10dp" />
 
-            <!-- Female Count -->
             <EditText
                 android:id="@+id/femaleCount"
                 android:layout_width="match_parent"
