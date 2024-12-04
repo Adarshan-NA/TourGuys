@@ -138,17 +138,17 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                                 Log.d(TAG, "Profile image URL saved to database.");
                                 Toast.makeText(ProfileSettingsActivity.this, "Profile image updated successfully!", Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.e(TAG, "Failed to save profile image URL in database.");
+//                                Log.e(TAG, "Failed to save profile image URL in database.");
                                 Toast.makeText(ProfileSettingsActivity.this, "Failed to update profile image in database.", Toast.LENGTH_SHORT).show();
                             }
                         });
             }).addOnFailureListener(e -> {
                 Log.e(TAG, "Failed to get download URL: " + e.getMessage());
-                Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             });
         }).addOnFailureListener(e -> {
             Log.e(TAG, "Failed to upload image: " + e.getMessage());
-            Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 
