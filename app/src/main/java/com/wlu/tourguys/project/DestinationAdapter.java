@@ -18,6 +18,8 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
 
     private final List<Destination> destinationList;
     private final Context context;
+    String userEmail, userPhone;
+
 
     public DestinationAdapter(List<Destination> destinationList, Context context) {
         this.destinationList = destinationList;
@@ -40,11 +42,14 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
         Destination destination = destinationList.get(position);
 
         // Updated to use valid getters from Destination class
-        holder.name.setText("Location: " + destination.getDestinationCity() + ", " + destination.getDestinationCountry());
+        holder.name.setText(destination.getUserName());
         holder.dates.setText("Dates: " + destination.getStartDate() + " to " + destination.getEndDate());
         holder.count.setText("Count: " + destination.getNumPeople());
         holder.location.setText(destination.getDestinationCity());
         holder.country.setText(destination.getDestinationCountry());
+        userEmail = destination.getUserEmail();
+        userPhone = destination.getUserPhone();
+
 
         // Handle the "Info" button click
         holder.infoButton.setOnClickListener(view -> {
@@ -65,6 +70,7 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
         TextView name, dates, count, location, country;
         Button infoButton;
 
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
@@ -73,6 +79,8 @@ public class DestinationAdapter extends RecyclerView.Adapter<DestinationAdapter.
             location = itemView.findViewById(R.id.location);
             country = itemView.findViewById(R.id.country);
             infoButton = itemView.findViewById(R.id.info_button);
+
+
         }
     }
 

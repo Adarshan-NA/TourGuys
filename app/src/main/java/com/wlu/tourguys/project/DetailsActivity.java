@@ -2,6 +2,7 @@ package com.wlu.tourguys.project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ public class DetailsActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
     private Button btnContactInfo;
     ImageView backButton;
+    String userEmail, userPhone, userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +43,33 @@ public class DetailsActivity extends AppCompatActivity {
 
         // Populate the views
         if (destination != null) {
+            // Update the views with the data from the destination object
+
             tvDestinationName.setText(destination.getDestinationCountry());
             tvLocation.setText(destination.getDestinationCity());
             tvDuration.setText(String.valueOf((destination.getNumDays())) + " days");
-            tvTravelerName.setText(destination.getName());
+            tvTravelerName.setText(destination.getUserName());
             tvTravelDates.setText((destination.getStartDate() + " to " + destination.getEndDate()));
             tvSource.setText(destination.getSourceCity() + ", " + destination.getSourceCountry());
             tvTotalPeople.setText(String.valueOf(destination.getNumPeople()));
             tvMaleCount.setText(String.valueOf(destination.getMaleCount()));
             tvFemaleCount.setText(String.valueOf(destination.getFemaleCount()));
             tvBudget.setText(String.valueOf(destination.getBudget()));
+            Log.i("DetailsActivity",destination.getUserEmail()
+            );
+            Log.i("DetailsActivity",destination.getUserPhone()
+            );
+            userEmail = destination.getUserEmail();
+            userPhone = destination.getUserPhone();
+            userName = destination.getUserName();
         }
 
         // Set up button to navigate to ContactDetails
         btnContactInfo.setOnClickListener(view -> {
             Intent intent = new Intent(DetailsActivity.this, ContactDetailsActivity.class);
+            intent.putExtra("userEmail", userEmail);
+            intent.putExtra("userPhone", userPhone);
+            intent.putExtra("userName", userName);
             startActivity(intent);
         });
 

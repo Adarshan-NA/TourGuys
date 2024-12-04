@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#f0f0f0"
     android:orientation="vertical">
 
@@ -16,15 +17,27 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 标题 -->
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:src="@drawable/back_button_black_on_white"
+                tools:ignore="TouchTargetSizeCheck" />
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_travel_advice"
-                android:textSize="24sp"
-                android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
-                android:paddingBottom="16dp" />
+                android:textSize="36sp"
+                android:padding="10dp"
+                android:textColor="#B0D8BC"
+                android:textStyle="bold"
+                />
 
             <!-- 地点 -->
             <LinearLayout

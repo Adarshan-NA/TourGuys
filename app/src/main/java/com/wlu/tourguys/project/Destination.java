@@ -16,6 +16,9 @@ public class Destination implements Serializable {
     private String sourceCity;
     private String sourceCountry;
     private double budget;
+    private String userName;
+    private String userPhone;
+    private String userEmail;
 
     // Default constructor (required for Firebase)
     public Destination() {
@@ -23,7 +26,8 @@ public class Destination implements Serializable {
 
     // Constructor with all fields
     public Destination(String destinationCity, String destinationCountry, String startDate, String endDate,
-                       int numPeople, int maleCount, int femaleCount, String sourceCity, String sourceCountry, double budget) {
+                       int numPeople, int maleCount, int femaleCount, String sourceCity, String sourceCountry, double budget,
+                       String userName, String userPhone, String userEmail) {
         this.destinationCity = destinationCity;
         this.destinationCountry = destinationCountry;
         this.startDate = startDate;
@@ -34,6 +38,9 @@ public class Destination implements Serializable {
         this.sourceCity = sourceCity;
         this.sourceCountry = sourceCountry;
         this.budget = budget;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userPhone = userPhone;
     }
 
     // Getters and Setters
@@ -111,6 +118,30 @@ public class Destination implements Serializable {
 
     public double getBudget() {
         return budget;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public void setBudget(Object budget) {

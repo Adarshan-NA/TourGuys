@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class GuideActivity extends AppCompatActivity {
     private TextView sunrise;
     private TextView sunset;
     private TextView travelAdvice;
-
+    ImageView backButton;
     private double latitude;
 
     private double longitude;
@@ -80,6 +81,8 @@ public class GuideActivity extends AppCompatActivity {
             Places.initialize(getApplicationContext(), map_api_key, Locale.getDefault());
         }
 
+
+        backButton = findViewById(R.id.back_button);
         editTextLocation = findViewById(R.id.location_input);
         editTextLocation.setFocusable(false);
         editTextLocation.setOnClickListener(v -> {
@@ -178,6 +181,12 @@ public class GuideActivity extends AppCompatActivity {
                 return true;
             }
             return false;
+        });
+
+
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+            startActivity(intent);
         });
     }
 
