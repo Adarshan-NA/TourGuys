@@ -25,16 +25,6 @@
                 android:background="@null"
                 android:contentDescription="Back" />
 
-            <!-- Profile Image -->
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/sample_profile_image"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp" />
-
             <!-- Name -->
             <TextView
                 android:id="@+id/profileName"

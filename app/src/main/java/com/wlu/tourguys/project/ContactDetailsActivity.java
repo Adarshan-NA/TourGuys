@@ -2,7 +2,6 @@ package com.wlu.tourguys.project;
 
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 public class ContactDetailsActivity extends AppCompatActivity {
 
     private ImageButton backButton;
-    private ImageView profileImage;
     private TextView profileName, profileLocation, phoneText, emailText;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
@@ -30,7 +28,6 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
         // Initialize views
         backButton = findViewById(R.id.backButton);
-        profileImage = findViewById(R.id.profileImage);
         profileName = findViewById(R.id.profileName);
         profileLocation = findViewById(R.id.profileLocation);
         phoneText = findViewById(R.id.phoneText);
@@ -67,10 +64,6 @@ public class ContactDetailsActivity extends AppCompatActivity {
                     phoneText.setText(phone);
                     emailText.setText(email);
                     profileLocation.setText(city + ", " + country);
-
-                    // You can add logic here to load the profile image if it's stored in Firebase Storage
-                    // For now, assuming you have a default profile image
-                    profileImage.setImageResource(R.drawable.sample_profile_image);
                 } else {
                     Toast.makeText(ContactDetailsActivity.this, "User data not found.", Toast.LENGTH_SHORT).show();
                 }
