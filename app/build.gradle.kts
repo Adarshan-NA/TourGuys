@@ -91,26 +91,23 @@ dependencies {
     implementation(libs.google.firebase.auth)
 
     // Testing dependencies for unit tests
-    testImplementation(libs.junit)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.inline)
-    testImplementation(libs.androidx.core.testing)
-    testImplementation(libs.byte.buddy)
-    testImplementation(libs.robolectric)
-    testImplementation(libs.androidx.core.v150)
-
-    testImplementation(libs.bundles.testing)
-
-
+    testImplementation(libs.junit.v413)
+    testImplementation(libs.mockito.core.v400)
+    testImplementation(libs.mockito.inline.v400)
+    testImplementation(libs.robolectric.v461)
+    testImplementation(libs.core.testing)
+    testImplementation(libs.google.firebase.firestore)
+    testImplementation(libs.firebase.auth.v2103)
 
     // AndroidX testing dependencies for instrumentation tests
-    androidTestImplementation(libs.androidx.junit.v115)
-    androidTestImplementation(libs.androidx.espresso.core.v351)
-    androidTestImplementation(libs.androidx.core)
+    androidTestImplementation(libs.androidx.espresso.core.v361)
     androidTestImplementation(libs.androidx.junit.v121)
-    androidTestImplementation(libs.androidx.rules)
-    androidTestImplementation(libs.androidx.runner)
-    androidTestImplementation(libs.mockito.android)
-    androidTestImplementation(libs.androidx.core.testing.v210)
+    androidTestImplementation(libs.rules)
+    androidTestImplementation(libs.runner)
+    androidTestImplementation(libs.mockito.android.v400)
+
+    // Optional: Firebase test dependencies (if using Firebase in tests)
+    androidTestImplementation(libs.firebase.firestore.v2430)
+    androidTestImplementation(libs.google.firebase.auth)
 }
 
