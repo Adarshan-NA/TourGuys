@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ public class AddTripActivity extends AppCompatActivity {
 
     // User details
     public String userName, userEmail, userPhone;
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class AddTripActivity extends AppCompatActivity {
         femaleCountField = findViewById(R.id.femaleCount);
         budgetField = findViewById(R.id.budget);
 
+        backButton = findViewById(R.id.back_button);
+
         addTripButton = findViewById(R.id.addTripButton);
 
         // Initialize Firebase
@@ -81,6 +85,11 @@ public class AddTripActivity extends AppCompatActivity {
         endDateField.setOnClickListener(v -> {
             showDatePickerDialog(endDateField, endDateCalendar);
             calculateNumDays();
+        });
+
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(AddTripActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
         // Set up button listener
