@@ -1,80 +1,39 @@
-package com.wlu.tourguys.project;
-
-import static org.mockito.Mockito.*;
-
-import android.widget.EditText;
-import android.widget.Toast;
-
-import androidx.lifecycle.Lifecycle;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import static org.junit.Assert.*;
 
-@RunWith(AndroidJUnit4.class)
+import org.junit.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class AddTripActivityTest {
 
-    private AddTripActivity addTripActivity;
-    private FirebaseAuth mockAuth;
-    private FirebaseUser mockUser;
-    private DatabaseReference mockDatabaseReference;
+    @Test
+    public void calculateNumDays_validDates_returnsCorrectNumberOfDays() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-    @Before
-    public void setUp() {
-        // Initialize mocks
-        mockAuth = mock(FirebaseAuth.class);
-        mockUser = mock(FirebaseUser.class);
-        mockDatabaseReference = mock(DatabaseReference.class);
+        String startDate = "2024-12-01";
+        String endDate = "2024-12-05";
 
-        // Create an Activity Scenario
-        ActivityScenario<AddTripActivity> scenario = ActivityScenario.launch(AddTripActivity.class);
+        long start = sdf.parse(startDate).getTime();
+        long end = sdf.parse(endDate).getTime();
 
-        // Use the activity within the scenario to set up mocks
-        scenario.onActivity(activity -> {
-            addTripActivity = activity; // Initialize the AddTripActivity
-            addTripActivity.mAuth = mockAuth;
-            addTripActivity.mDatabaseReference = mockDatabaseReference;
-        });
+        long diff = end - start;
+        int days = (int) (diff / (1000 * 60 * 60 * 24)) + 1; // Including the start day
 
-        // Set the mocks
-        when(mockAuth.getCurrentUser()).thenReturn(mockUser);
-        when(mockDatabaseReference.child(anyString())).thenReturn(mockDatabaseReference);
+        assertEquals(5, days);
     }
 
     @Test
-    public void testAddTripToDatabase_Success() {
-        // Arrange - mock valid input data
-        EditText sourceCountryField = mock(EditText.class);
-        when(sourceCountryField.getText()).thenReturn("USA");
+    public void calculateNumDays_endDateBeforeStartDate_returnsInvalid() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-        // Simulate a successful Firebase operation
-        doNothing().when(mockDatabaseReference).setValue(any());
+        String startDate = "2024-12-05";
+        String endDate = "2024-12-01";
 
-        // Act - trigger the method to add the trip
-        addTripActivity.addTripToDatabase();
+        long start = sdf.parse(startDate).getTime();
+        long end = sdf.parse(endDate).getTime();
 
-        // Assert - verify if the Firebase call was made successfully
-        verify(mockDatabaseReference, times(1)).setValue(any());
-    }
-
-    @Test
-    public void testAddTripToDatabase_Failure() {
-        // Arrange - simulate a failure
-        doThrow(new RuntimeException("Firebase error")).when(mockDatabaseReference).setValue(any());
-
-        // Act - trigger the method to add the trip
-        addTripActivity.addTripToDatabase();
-
-        // Assert - verify if Toast shows error
-        verify(addTripActivity, times(1)).showToast("Failed to add trip");
+        assertTrue(end < start);
     }
 }

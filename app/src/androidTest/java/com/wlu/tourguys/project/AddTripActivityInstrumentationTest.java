@@ -1,77 +1,67 @@
 package com.wlu.tourguys.project;
 
-import android.widget.EditText;
-
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
+import com.wlu.tourguys.project.AddTripActivity;
+import com.wlu.tourguys.project.MainActivity;
+import com.wlu.tourguys.project.R;
+
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.contrib.PickerActions.setDate;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 
 @RunWith(AndroidJUnit4.class)
 public class AddTripActivityInstrumentationTest {
 
     @Rule
-    public ActivityScenarioRule<AddTripActivity> activityRule =
+    public ActivityScenarioRule<AddTripActivity> activityScenarioRule =
             new ActivityScenarioRule<>(AddTripActivity.class);
 
-    @Before
-    public void setUp() {
-        // Any setup logic before each test
+    @Test
+    public void validateInputFields_showsErrorWhenEmpty() {
+        // Click the add trip button without filling the fields
+        onView(withId(R.id.addTripButton)).perform(click());
+        // Verify the error message is displayed
+        onView(withText("Please fill all the fields")).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testMissingFields_ShowError() {
-        // Act - Click Add Trip Button without filling any fields
-        onView(withId(R.id.addTripButton)).perform(ViewActions.click());
-
-        // Assert - Check that all required fields show error
-        onView(withId(R.id.sourceCountry)).check(matches(hasErrorText("This field is required")));
-        onView(withId(R.id.sourceCity)).check(matches(hasErrorText("This field is required")));
-        // ... Repeat for other fields
+    public void validateDatePicker_updatesDateField() {
+        // Open the date picker
+        onView(withId(R.id.startDate)).perform(click());
+        // Set the date in the date picker
+        onView(withClassName(Matchers.equalTo(android.widget.DatePicker.class.getName())))
+                .perform(setDate(2024, 12, 1));
+        // Confirm the date selection
+        onView(withId(android.R.id.button1)).perform(click());
+        // Verify the start date field displays the correct date
+        onView(withId(R.id.startDate)).check(matches(withText("2024-12-01")));
     }
 
     @Test
-    public void testValidInput_AddTrip() {
-        // Act - Fill the form with valid data
-        onView(withId(R.id.sourceCountry)).perform(ViewActions.typeText("USA"));
-        onView(withId(R.id.sourceCity)).perform(ViewActions.typeText("New York"));
-        onView(withId(R.id.destinationCountry)).perform(ViewActions.typeText("Canada"));
-        onView(withId(R.id.destinationCity)).perform(ViewActions.typeText("Toronto"));
-        onView(withId(R.id.startDate)).perform(ViewActions.typeText("2024-12-15"));
-        onView(withId(R.id.endDate)).perform(ViewActions.typeText("2024-12-20"));
-        onView(withId(R.id.numPeople)).perform(ViewActions.typeText("5"));
-        onView(withId(R.id.maleCount)).perform(ViewActions.typeText("3"));
-        onView(withId(R.id.femaleCount)).perform(ViewActions.typeText("2"));
-        onView(withId(R.id.budget)).perform(ViewActions.typeText("1000"));
-
-        // Perform the button click to add the trip
-        onView(withId(R.id.addTripButton)).perform(ViewActions.click());
-
-        // Assert - Verify if the trip was added (this can be verified by checking for Toast or activity redirection)
-        // For example, checking if MainActivity is launched:
-        onView(withId(R.id.recyclerView_trips)).check(matches(isDisplayed()));
+    public void validateNumberOfDaysCalculation() {
+        // Enter the start and end dates
+        onView(withId(R.id.startDate)).perform(typeText("2024-12-01"), closeSoftKeyboard());
+        onView(withId(R.id.endDate)).perform(typeText("2024-12-05"), closeSoftKeyboard());
+        // Verify the number of days field calculates the correct value
+        onView(withId(R.id.numDays)).check(matches(withText("5")));
     }
 
     @Test
-    public void testInvalidDateRange_ShowError() {
-        // Fill valid start date but invalid end date (end date < start date)
-        onView(withId(R.id.startDate)).perform(ViewActions.typeText("2024-12-15"));
-        onView(withId(R.id.endDate)).perform(ViewActions.typeText("2024-12-10"));
-        onView(withId(R.id.addTripButton)).perform(ViewActions.click());
-
-        // Assert - Check if appropriate error is shown for invalid date range
-        onView(withId(R.id.endDate)).check(matches(hasErrorText("End date cannot be less than start date")));
+    public void validateNavigation_backButtonNavigates() {
+        // Click the back button
+        onView(withId(R.id.back_button)).perform(click());
+        // Verify navigation to MainActivity
+        intended(hasComponent(MainActivity.class.getName()));
     }
 }
