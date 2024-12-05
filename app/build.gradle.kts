@@ -100,15 +100,28 @@ dependencies {
     testImplementation(libs.google.firebase.firestore)
     testImplementation(libs.firebase.auth.v2103)
 
+    // Hamcrest Matchers
+    testImplementation(libs.hamcrest.library)
+
     // AndroidX testing dependencies for instrumentation tests
     androidTestImplementation(libs.androidx.espresso.core.v361)
     androidTestImplementation(libs.androidx.junit.v121)
     androidTestImplementation(libs.rules)
     androidTestImplementation(libs.runner)
     androidTestImplementation(libs.mockito.android.v400)
+    androidTestImplementation(libs.androidx.rules.v150)
+    androidTestImplementation(libs.androidx.core)
+    androidTestImplementation(libs.androidx.espresso.core.v361)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.espresso.contrib)
+    androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.androidx.runner.v152)
+    androidTestImplementation(libs.androidx.junit.v121)
+    androidTestImplementation(libs.androidx.espresso.core.v361)
+    androidTestImplementation(libs.androidx.espresso.intents.v361)
+    androidTestImplementation(libs.androidx.espresso.contrib.v361)
 
     // Optional: Firebase test dependencies (if using Firebase in tests)
     androidTestImplementation(libs.firebase.firestore.v2430)
     androidTestImplementation(libs.google.firebase.auth)
 }
-
